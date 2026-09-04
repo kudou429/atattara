@@ -3,112 +3,236 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0f3042">
-<title>当たったら Ver.1.2</title>
+<meta name="theme-color" content="#102b3a">
+<title>当たったら — 会話中心プロトタイプ</title>
 <style>
-:root{--ink:#143445;--muted:#71818a;--paper:#fffdf8;--line:#e8e1d7;--warm:#ff9363;--gold:#f3c96f;--navy:#10384a;--green:#5f9d79;--sky:#dff0f2;--cream:#f8f1e6;--shadow:0 18px 42px rgba(32,48,57,.11)}
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:linear-gradient(180deg,#f9f0e3,#f6f5ef 50%,#e9f3f1);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;-webkit-tap-highlight-color:transparent}button,input{font:inherit;color:inherit}button{cursor:pointer}.app{max-width:580px;margin:auto;min-height:100vh;padding:calc(10px + env(safe-area-inset-top)) 14px calc(42px + env(safe-area-inset-bottom))}.screen{display:none;animation:enter .28s ease}.screen.on{display:block}@keyframes enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.brand{display:flex;justify-content:space-between;align-items:center;margin:3px 3px 13px}.brand b{font-size:12px;letter-spacing:.18em;color:#98664e}.ver{font-size:9px;font-weight:900;color:#73848b;background:#ffffffa8;border:1px solid #fff;border-radius:99px;padding:5px 8px}.card,.hero{background:rgba(255,253,248,.97);border:1px solid rgba(232,225,215,.95);border-radius:28px;box-shadow:var(--shadow)}.hero{padding:22px}.card{padding:17px;margin:10px 0}.kicker{display:inline-flex;gap:5px;align-items:center;background:#fff0df;color:#995e43;border-radius:99px;padding:7px 10px;font-size:10px;font-weight:950}.title{font-size:31px;line-height:1.16;letter-spacing:-.045em;font-weight:950;margin:12px 0 8px}.title.sm{font-size:25px}.lead{font-size:13px;line-height:1.65;color:#62747c;margin:0}.note{font-size:10px;line-height:1.55;color:#8b989e;margin:9px 2px 0}.sectionlabel{font-size:11px;font-weight:950;color:#8d6a5a;margin:15px 1px 8px}
-.todayHero{background:linear-gradient(145deg,#11364a,#2c6571);color:#fff;border-radius:28px;padding:19px;position:relative;overflow:hidden;margin:12px 0}.todayHero:after{content:"TODAY";position:absolute;right:-5px;bottom:-19px;font-size:66px;font-weight:950;letter-spacing:-.05em;color:#ffffff0b}.todayHero small{color:#c9e1e5;font-size:10px}.todayHero .date{font-size:26px;font-weight:950;margin:3px 0 4px}.todayHero p{font-size:11px;line-height:1.5;color:#dfedef;margin:0}.profileGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.profile{border:1px solid var(--line);background:#fff;border-radius:18px;padding:12px;min-height:88px}.profile .ico{font-size:21px}.profile label{display:block;font-size:9px;color:#8b999f;font-weight:900;margin:4px 0 3px}.profile input{width:100%;border:0;border-bottom:1px dashed #d8cfc3;background:transparent;padding:3px 0;font-size:11px;font-weight:850;outline:none}.amounts{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.amounts button{border:1px solid var(--line);background:#fff;border-radius:15px;padding:11px 3px;font-size:12px;font-weight:950}.amounts button.sel{border:2px solid var(--warm);background:#fff6ef;color:#9b5e45}.btn{width:100%;border:0;border-radius:19px;padding:15px 16px;margin-top:13px;background:linear-gradient(100deg,var(--gold),var(--warm));color:#fff;font-size:15px;font-weight:950;box-shadow:0 10px 23px rgba(225,126,80,.2)}.sub{width:100%;border:0;border-radius:18px;padding:13px 15px;margin-top:8px;background:#edf3f3;color:#315a66;font-weight:900}.stepbar{position:sticky;top:0;z-index:8;margin:0 -14px 12px;padding:9px 14px;background:#f8f3ebde;backdrop-filter:blur(12px);border-bottom:1px solid #eadfd3}.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:5px}.steps i{height:5px;border-radius:99px;background:#ded8cf}.steps i.on{background:linear-gradient(90deg,var(--gold),var(--warm))}.steplabel{font-size:9.5px;font-weight:900;color:#896a5b;margin-top:6px;display:flex;justify-content:space-between}
-.win{min-height:62vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}.ticket{width:100%;border-radius:30px;padding:26px 18px;background:radial-gradient(circle at 80% 20%,#f6cf7a40,transparent 28%),linear-gradient(145deg,#0c3144,#286170);color:#fff;box-shadow:0 24px 55px rgba(28,50,61,.22);position:relative;overflow:hidden}.ticket:before,.ticket:after{content:"";position:absolute;border:1px solid #ffffff1d;border-radius:50%}.ticket:before{width:210px;height:210px;right:-95px;top:-100px}.ticket:after{width:120px;height:120px;left:-45px;bottom:-65px}.ticket .mini{font-size:10px;letter-spacing:.18em;color:#cde2e6;font-weight:900}.ticket .money{font-size:45px;font-weight:950;letter-spacing:-.055em;margin:9px 0 3px}.ticket .copy{font-size:13px;color:#e5f0f2}.reveal{margin-top:18px;font-size:13px;line-height:1.7;color:#536b76}.reveal b{font-size:20px;color:#193c4c}.pulse{animation:pulse 1.4s ease infinite}@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.025)}}
-.questionVisual{border-radius:26px;padding:20px;background:linear-gradient(135deg,#fff7ed,#eef7f5);margin-bottom:11px;position:relative;overflow:hidden}.questionVisual .clock{font-size:11px;font-weight:950;color:#9a674f}.questionVisual .big{font-size:29px;font-weight:950;line-height:1.2;margin:5px 0}.questionVisual .small{font-size:11px;line-height:1.55;color:#65777e}.choices{display:grid;gap:8px}.choice{width:100%;border:1px solid var(--line);background:#fff;border-radius:19px;padding:14px;display:grid;grid-template-columns:42px 1fr auto;gap:10px;align-items:center;text-align:left}.choice .ico{width:42px;height:42px;border-radius:14px;background:#edf5f3;display:grid;place-items:center;font-size:20px}.choice b{font-size:13px}.choice small{display:block;font-size:9.5px;line-height:1.4;color:#77868d;margin-top:3px}.choice .arrow{font-size:18px;color:#bea08d}.choice.sel{border:2px solid var(--warm);background:#fff7f1}.impactStrip{display:flex;gap:7px;overflow:auto;margin:10px 0 2px}.impactStrip span{flex:0 0 auto;border:1px solid #e8dfd5;background:#fff;border-radius:99px;padding:7px 9px;font-size:9.5px;font-weight:900;color:#5c7079}
-.weekCompare{display:grid;grid-template-columns:1fr 28px 1fr;gap:6px;align-items:center}.weekbox{background:#fff;border:1px solid var(--line);border-radius:20px;padding:12px}.weekbox h3{font-size:11px;margin:0 0 8px}.weekbox .week{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}.d{height:38px;border-radius:9px;background:#edf0ef;display:grid;place-items:center;font-size:8px;font-weight:900;color:#7e8a90}.d.work{background:#d8e8eb;color:#315b67}.d.family{background:#ffe8d7;color:#985e45}.d.project{background:#e5e0f1;color:#5d5484}.d.free{background:#e2f0e7;color:#46725a}.midArrow{text-align:center;font-size:21px;color:#cf8f6a}.newDays{background:linear-gradient(135deg,#10384a,#34717c);color:#fff;border-radius:25px;padding:17px;margin:11px 0}.newDays small{font-size:10px;color:#c8e2e5}.newDays .num{font-size:35px;font-weight:950;margin:2px 0}.newDays p{font-size:11px;margin:0;color:#deedef}.useGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.use{border:1px solid var(--line);background:#fff;border-radius:18px;padding:13px;text-align:left}.use .ico{font-size:23px}.use b{display:block;font-size:11px;margin-top:5px}.use small{font-size:9px;color:#7c898f}.use.sel{border:2px solid var(--warm);background:#fff7f1}
-.monthScene{height:170px;border-radius:24px;background:linear-gradient(#cbe7ec 0 54%,#dfe8cc 54%);position:relative;overflow:hidden;margin-bottom:12px}.monthScene:before{content:"🏠";position:absolute;font-size:86px;right:26px;bottom:10px}.monthScene:after{content:"🌳";position:absolute;font-size:58px;left:25px;bottom:19px}.monthScene .label{position:absolute;left:12px;top:12px;background:#12394bdd;color:#fff;border-radius:99px;padding:6px 9px;font-size:9px;font-weight:900}.homeChoices{display:grid;grid-template-columns:1fr 1fr;gap:8px}.home{border:1px solid var(--line);background:#fff;border-radius:19px;padding:13px;text-align:left;min-height:112px}.home .ico{font-size:22px}.home b{display:block;font-size:11px;margin:5px 0 3px}.home small{font-size:9px;line-height:1.4;color:#78868d}.home .cost{display:block;margin-top:6px;color:#a0664e;font-weight:950}.home.sel{border:2px solid var(--warm);background:#fff7f1}
-.yearHero{border-radius:29px;background:radial-gradient(circle at 85% 15%,#f2cb7340,transparent 28%),linear-gradient(145deg,#0e3447,#2a6672);color:#fff;padding:19px;margin:10px 0}.yearHero small{font-size:10px;color:#c9e1e4}.yearHero .big{font-size:34px;font-weight:950;margin:4px 0}.yearHero p{font-size:11px;line-height:1.5;color:#dcebed;margin:0}.yearGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.metric{background:#fff;border:1px solid var(--line);border-radius:19px;padding:13px}.metric .ico{font-size:20px}.metric b{display:block;font-size:19px;margin:5px 0 2px}.metric small{font-size:9px;color:#7b898f;line-height:1.35}.story{border-left:4px solid var(--warm);background:#fff8f3;border-radius:5px 18px 18px 5px;padding:13px;margin:11px 0}.story .when{font-size:9px;font-weight:950;color:#9a664e}.story b{display:block;font-size:13px;margin:4px 0}.story p{font-size:10.5px;line-height:1.55;color:#6d7a80;margin:0}.surprise{background:linear-gradient(135deg,#f3efe9,#edf6f4);border:1px solid #e3ddd4;border-radius:22px;padding:14px;margin:11px 0}.surprise .spark{font-size:10px;font-weight:950;color:#91634f}.surprise h3{font-size:16px;margin:5px 0}.surprise p{font-size:10.5px;line-height:1.55;color:#67777e;margin:0}.compare{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.compare>div{border-radius:18px;padding:12px;background:#fff;border:1px solid var(--line)}.compare b{font-size:10.5px}.compare p{font-size:9.5px;line-height:1.45;color:#75838a;margin:5px 0 0}.reset{width:100%;border:0;background:transparent;padding:14px;color:#7b8b92;font-size:10px;font-weight:900}
-@media(max-width:390px){.title{font-size:28px}.ticket .money{font-size:40px}.profileGrid{grid-template-columns:1fr}.weekCompare{grid-template-columns:1fr}.midArrow{transform:rotate(90deg)}}
+:root{
+  --ink:#173544;--muted:#71818a;--paper:#fffdfa;--bg:#f5f1ea;--line:#e7dfd5;
+  --navy:#102f40;--navy2:#1d5262;--warm:#ff9463;--gold:#f4c66f;--mint:#e8f4ef;
+  --mint2:#cfe9dc;--blue:#eaf4f6;--shadow:0 18px 50px rgba(29,48,60,.11);
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:linear-gradient(180deg,#f8f3eb,#eff5f3);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;-webkit-tap-highlight-color:transparent}
+button,input,textarea{font:inherit;color:inherit}button{cursor:pointer}
+.app{max-width:820px;margin:auto;min-height:100vh;padding:calc(8px + env(safe-area-inset-top)) 12px calc(24px + env(safe-area-inset-bottom))}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:7px 2px 11px;position:sticky;top:0;z-index:30;background:linear-gradient(#f7f2eaf2,#f7f2eadb,transparent);backdrop-filter:blur(10px)}
+.brand{display:flex;align-items:center;gap:9px}.logo{width:34px;height:34px;border-radius:11px;background:linear-gradient(145deg,var(--gold),var(--warm));display:grid;place-items:center;color:#fff;font-weight:950;box-shadow:0 8px 18px #de83583a}.brandtext b{display:block;font-size:13px;letter-spacing:.14em}.brandtext small{display:block;font-size:9px;color:#87949a;margin-top:2px}
+.topactions{display:flex;gap:6px}.iconbtn{border:1px solid #e4ddd4;background:#fffefa;border-radius:12px;padding:8px 10px;font-size:11px;font-weight:900;color:#48606b}
+.jackpot{background:radial-gradient(circle at 90% 8%,#f5cc7333,transparent 25%),linear-gradient(135deg,var(--navy),var(--navy2));color:white;border-radius:24px;padding:15px 16px;margin-bottom:10px;box-shadow:var(--shadow);display:flex;justify-content:space-between;gap:12px;align-items:center;overflow:hidden;position:relative}.jackpot:after{content:"";position:absolute;width:130px;height:130px;border-radius:50%;border:1px solid #ffffff1d;right:-48px;top:-52px}.jpmeta{position:relative;z-index:2}.jpmeta small{font-size:9px;letter-spacing:.12em;color:#cfe3e6;font-weight:900}.jpamount{font-size:28px;line-height:1;font-weight:950;letter-spacing:-.045em;margin:5px 0}.jpsub{font-size:10px;color:#dce9eb}.jpbadge{position:relative;z-index:2;background:#ffffff17;border:1px solid #ffffff22;border-radius:15px;padding:9px 10px;text-align:right}.jpbadge small{font-size:8px;color:#c8dfe3}.jpbadge b{display:block;font-size:14px;margin-top:2px}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:10px;align-items:start}.chatcard,.lifepanel{background:rgba(255,253,250,.97);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow)}
+.chatcard{min-height:620px;display:flex;flex-direction:column;overflow:hidden}.chathead{padding:13px 15px 10px;border-bottom:1px solid #eee7dd;display:flex;justify-content:space-between;align-items:center;gap:10px}.chathead b{font-size:13px}.chathead small{font-size:9px;color:#8a969b}.statusdot{width:8px;height:8px;border-radius:50%;background:#6fb78e;display:inline-block;margin-right:5px;box-shadow:0 0 0 4px #6fb78e1d}
+.messages{padding:14px 13px 8px;display:flex;flex-direction:column;gap:11px;min-height:420px;flex:1;overflow:auto;scroll-behavior:smooth}.msg{display:flex;gap:8px;align-items:flex-start;animation:pop .22s ease}@keyframes pop{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}.msg.me{justify-content:flex-end}.avatar{width:28px;height:28px;border-radius:10px;display:grid;place-items:center;flex:0 0 28px;font-size:13px;font-weight:950}.ai .avatar{background:#173a4b;color:#fff}.bubble{max-width:83%;padding:11px 12px;border-radius:17px;font-size:12px;line-height:1.65;white-space:pre-wrap}.ai .bubble{background:#f2f6f5;border:1px solid #e3ece8;border-top-left-radius:6px}.me .bubble{background:linear-gradient(145deg,#1b4557,#2f6875);color:#fff;border-top-right-radius:6px}.systemnote{margin:0 auto;background:#fff5e9;border:1px solid #f0dfc8;border-radius:99px;padding:6px 9px;font-size:9px;font-weight:900;color:#9a684e}.typing{display:flex;gap:4px;align-items:center;padding:5px 1px}.typing i{width:5px;height:5px;border-radius:50%;background:#78909a;animation:blink .8s infinite}.typing i:nth-child(2){animation-delay:.12s}.typing i:nth-child(3){animation-delay:.24s}@keyframes blink{0%,80%,100%{opacity:.25;transform:translateY(0)}40%{opacity:1;transform:translateY(-2px)}}
+.quick{display:flex;gap:6px;overflow-x:auto;padding:0 13px 9px;scrollbar-width:none}.quick::-webkit-scrollbar{display:none}.quick button{flex:0 0 auto;border:1px solid #e6ddd3;background:#fff;border-radius:99px;padding:8px 10px;font-size:10px;font-weight:900;color:#526a74}.quick button:hover{background:#fff6ee;border-color:#efc8b3}.composer{border-top:1px solid #eee6dc;padding:10px;background:#fffdf9}.inputwrap{display:flex;align-items:flex-end;gap:7px;background:#f4f5f2;border:1px solid #e5e4df;border-radius:17px;padding:7px 7px 7px 11px}.inputwrap textarea{border:0;outline:0;background:transparent;resize:none;min-height:35px;max-height:120px;line-height:1.5;flex:1;font-size:12px;padding:7px 0}.send{border:0;border-radius:13px;width:39px;height:39px;background:linear-gradient(145deg,var(--gold),var(--warm));color:#fff;font-size:17px;font-weight:950;box-shadow:0 7px 16px #db825638}.send:disabled{opacity:.4}.composerhint{font-size:8.5px;color:#98a1a5;margin:6px 3px 0}
+.lifepanel{padding:13px;position:sticky;top:58px}.lifehead{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.lifehead b{font-size:12px}.lifehead span{font-size:8px;font-weight:950;color:#9b684f;background:#fff0df;border-radius:99px;padding:5px 7px}.profilebox{background:#f8f5ef;border-radius:16px;padding:10px;margin-bottom:9px}.profilebox small{font-size:8.5px;color:#889398;font-weight:900}.profilebox p{margin:5px 0 0;font-size:9.5px;line-height:1.5;color:#526770}.lifegrid{display:grid;grid-template-columns:1fr 1fr;gap:7px}.lifeitem{border:1px solid #e9e2d9;border-radius:16px;background:#fff;padding:9px;min-height:84px;position:relative;overflow:hidden;transition:.25s}.lifeitem.changed{animation:pulse .7s ease}@keyframes pulse{0%{box-shadow:0 0 0 0 #ff946344}50%{box-shadow:0 0 0 7px #ff94631c;border-color:#ffb291}100%{box-shadow:none}}.lifeitem .ico{font-size:18px}.lifeitem b{display:block;font-size:10px;margin:4px 0 2px}.lifeitem small{display:block;font-size:8.5px;line-height:1.35;color:#78888f}.lifeitem.done{background:#f2faf6;border-color:#c8dfd3}.lifeitem.maybe{background:#fff8f2;border-color:#f1d5c2}.moneybox{background:linear-gradient(145deg,#14384a,#2a6170);color:#fff;border-radius:17px;padding:11px;margin-top:8px}.moneybox small{font-size:8px;color:#cae0e4}.moneybox b{display:block;font-size:20px;margin:2px 0}.moneybar{height:5px;background:#ffffff24;border-radius:99px;overflow:hidden;margin-top:7px}.moneybar span{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--warm));border-radius:99px}.metrics{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:7px}.metric{background:#eef5f3;border-radius:13px;padding:8px}.metric small{font-size:7.5px;color:#708189}.metric b{display:block;font-size:12px;margin-top:2px}.lifebtns{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}.lifebtns button{border:0;border-radius:12px;padding:9px 6px;font-size:9px;font-weight:950}.comparebtn{background:#173e50;color:#fff}.undobtn{background:#edf1f1;color:#536b75}.timeline{margin-top:9px;border-top:1px solid #eee7df;padding-top:8px}.timelinehead{font-size:8.5px;font-weight:950;color:#8b6a59;margin-bottom:6px}.decision{display:flex;gap:6px;margin:5px 0}.decision i{width:7px;height:7px;border-radius:50%;background:#f1a072;margin-top:4px;flex:0 0 7px}.decision div{font-size:8.5px;line-height:1.4;color:#697a82}.decision b{color:#3c5865}
+.sheetback{position:fixed;inset:0;background:#102b3a72;backdrop-filter:blur(4px);z-index:60;display:none;padding:18px}.sheetback.on{display:grid;place-items:center}.sheet{width:min(560px,100%);max-height:88vh;overflow:auto;background:#fffdfa;border-radius:25px;padding:17px;box-shadow:0 30px 70px #0f283661}.sheettop{display:flex;justify-content:space-between;align-items:center;gap:10px}.sheettop b{font-size:16px}.close{border:0;background:#eef2f1;border-radius:99px;width:31px;height:31px;font-weight:950}.worlds{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.world{border:1px solid #e6ded5;border-radius:18px;padding:12px;background:#fff}.world.primary{border:2px solid #ef9f78;background:#fff8f3}.world .wlabel{font-size:8px;font-weight:950;color:#9a684f}.world h3{font-size:14px;margin:5px 0 8px}.worldrow{font-size:9.5px;line-height:1.5;padding:5px 0;border-top:1px solid #f0ebe5}.worldrow:first-of-type{border-top:0}.worldmoney{font-size:19px;font-weight:950;color:#173f51;margin:7px 0}.sheetnote{font-size:9px;line-height:1.55;color:#7c898e;margin:10px 1px 0}.profileform label{display:block;font-size:9px;font-weight:950;color:#6d7c83;margin:10px 0 4px}.profileform input{width:100%;border:1px solid #e4ddd4;background:#fff;border-radius:13px;padding:11px;font-size:11px;outline:0}.saveprofile{width:100%;border:0;border-radius:15px;background:#173d50;color:#fff;padding:12px;font-weight:950;margin-top:13px}
+.mobileLife{display:none;position:fixed;right:13px;bottom:calc(78px + env(safe-area-inset-bottom));z-index:35;border:0;border-radius:99px;background:#173d50;color:#fff;padding:10px 13px;font-size:10px;font-weight:950;box-shadow:0 10px 25px #183e5050}.mobileLife span{background:#ff9a67;border-radius:99px;padding:2px 5px;margin-left:4px}
+@media(max-width:720px){.layout{display:block}.lifepanel{display:none}.chatcard{min-height:calc(100vh - 155px)}.messages{min-height:360px}.mobileLife{display:block}.app{padding-left:9px;padding-right:9px}.jackpot{border-radius:20px}.chatcard{border-radius:22px}.bubble{max-width:88%}}
+@media(max-width:390px){.jpamount{font-size:25px}.jackpot{padding:13px}.worlds{grid-template-columns:1fr}.topactions .iconbtn:nth-child(2){display:none}}
 </style>
 </head>
-<body><main class="app">
-<div class="brand"><b>当 た っ た ら</b><span class="ver">Ver.1.2 / FROM TODAY</span></div>
-<section id="s0" class="screen on">
-  <div class="hero"><span class="kicker">まず「夢」ではなく、今日から</span><div class="title">今のあなたに、<br>3億円が入ったら？</div><p class="lead">理想の人生を選ぶのではなく、今の仕事・家族・やりたいことの続きから始めます。</p></div>
-  <div class="todayHero"><small id="todayLabel">TODAY</small><div class="date" id="todayDate"></div><p>これは「架空の誰か」ではなく、あなたの今日です。</p></div>
-  <div class="sectionlabel">今のあなた</div>
-  <div class="profileGrid">
-    <div class="profile"><div class="ico">💼</div><label>仕事</label><input id="pWork" value="介護の仕事を週5"></div>
-    <div class="profile"><div class="ico">👨‍👩‍👦</div><label>家族</label><input id="pFamily" value="妻と息子の3人"></div>
-    <div class="profile"><div class="ico">💻</div><label>自分で育てたいもの</label><input id="pProject" value="CAREVAなど介護系プロジェクト"></div>
-    <div class="profile"><div class="ico">🌿</div><label>今いちばん欲しいもの</label><input id="pWant" value="家族時間と自由"></div>
+<body>
+<main class="app">
+  <div class="topbar">
+    <div class="brand"><div class="logo">当</div><div class="brandtext"><b>当 た っ た ら</b><small>CHAT-FIRST PROTOTYPE</small></div></div>
+    <div class="topactions"><button class="iconbtn" id="profileBtn">現在地を編集</button><button class="iconbtn" id="resetBtn">リセット</button></div>
   </div>
-  <div class="sectionlabel">当選額</div><div class="amounts" id="amounts"></div>
-  <button id="start" class="btn">この「今日」に当選を起こす →</button>
-  <p class="note">このVer.1.2は、あなた自身の現在地から始める体験を検証する無料モックです。金額計算は簡易な体験用です。</p>
-</section>
-<section id="s1" class="screen">
-  <div class="win"><div class="ticket pulse"><div class="mini">LOTTERY RESULT</div><div class="money" id="winMoney">3億円</div><div class="copy">あなたの口座に入ったとしたら。</div></div><div class="reveal" id="reveal"></div><button id="toTomorrow" class="btn">明日の朝へ →</button></div>
-</section>
-<section id="s2" class="screen">
-  <div class="stepbar"><div class="steps"><i class="on"></i><i></i><i></i><i></i><i></i></div><div class="steplabel"><span>明日</span><span>1年後まで続く</span></div></div>
-  <div class="questionVisual"><div class="clock">TOMORROW 6:30</div><div class="big">明日の仕事、<br>どうする？</div><div class="small" id="tomorrowCopy"></div></div>
-  <div class="choices" id="tomorrowChoices"></div><button id="applyTomorrow" class="btn" disabled>この明日を選ぶ →</button>
-</section>
-<section id="s3" class="screen">
-  <div class="stepbar"><div class="steps"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div><div class="steplabel"><span>1週間後</span><span>時間が変わる</span></div></div>
-  <div class="card"><span class="kicker">BEFORE → AFTER</span><div class="title sm">1週間が、<br>こう変わった。</div><div class="weekCompare"><div class="weekbox"><h3>これまで</h3><div class="week" id="weekBefore"></div></div><div class="midArrow">→</div><div class="weekbox"><h3>当選後</h3><div class="week" id="weekAfter"></div></div></div></div>
-  <div class="newDays"><small>1年に増える「自分で決められる平日」</small><div class="num" id="freeDays">0日</div><p id="freeCopy"></p></div>
-  <div class="sectionlabel">増えた時間を、まず何に使う？</div><div class="useGrid" id="useGrid"></div><button id="applyUse" class="btn" disabled>1か月後へ →</button>
-</section>
-<section id="s4" class="screen">
-  <div class="stepbar"><div class="steps"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="steplabel"><span>1か月後</span><span>暮らしを変える</span></div></div>
-  <div class="monthScene"><span class="label">1 MONTH LATER</span></div>
-  <div class="card"><div class="title sm">家も「夢」ではなく、<br>今の不満から。</div><p class="lead">今の生活圏や家族の暮らしを残しながら、何を変えますか？</p><div class="homeChoices" id="homeChoices"></div><button id="applyHome" class="btn" disabled>この暮らしで1年後を見る →</button></div>
-</section>
-<section id="s5" class="screen">
-  <div class="stepbar"><div class="steps"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div><div class="steplabel"><span>1年後</span><span>あなたの生活</span></div></div>
-  <div class="yearHero"><small>ONE YEAR AFTER WINNING</small><div class="big" id="yearHeadline"></div><p id="yearSub"></p></div>
-  <div class="yearGrid" id="yearGrid"></div>
-  <div id="storyWrap"></div>
-  <div class="surprise"><div class="spark">✦ あなたの選択から、こんな未来も</div><h3 id="surpriseTitle"></h3><p id="surpriseCopy"></p></div>
-  <div class="card"><span class="kicker">もし最初の選択が違ったら</span><div class="title sm">別の1年も、<br>すぐ比較できる。</div><div class="compare" id="compare"></div></div>
-  <button id="restart" class="sub">違う選択で、もう一度見る</button><button id="reset" class="reset">最初からリセット</button>
-</section>
+
+  <section class="jackpot">
+    <div class="jpmeta"><small>もし、今日当たったら</small><div class="jpamount" id="topAmount">300,000,000円</div><div class="jpsub">夢を選ぶのではなく、今の生活の続きを話す。</div></div>
+    <div class="jpbadge"><small>MY LIFE</small><b id="topProgress">0 / 6</b></div>
+  </section>
+
+  <div class="layout">
+    <section class="chatcard">
+      <div class="chathead"><div><span class="statusdot"></span><b>当選後の話をしよう</b></div><small>決めなくてもOK</small></div>
+      <div id="messages" class="messages"></div>
+      <div id="quick" class="quick"></div>
+      <div class="composer">
+        <div class="inputwrap"><textarea id="input" rows="1" placeholder="例：まず仕事を週3にしたいかな"></textarea><button id="send" class="send">↑</button></div>
+        <div class="composerhint">自由に話してください。会話からMY LIFEが自動で更新されます。</div>
+      </div>
+    </section>
+
+    <aside id="lifePanel" class="lifepanel"></aside>
+  </div>
 </main>
+<button id="mobileLife" class="mobileLife">MY LIFE <span id="mobileCount">0</span></button>
+
+<div id="sheetBack" class="sheetback"><div id="sheet" class="sheet"></div></div>
+
 <script>
-(()=>{
-const $=id=>document.getElementById(id);
-const AMOUNTS=[{v:10000000,l:'1,000万'},{v:100000000,l:'1億'},{v:300000000,l:'3億'},{v:1000000000,l:'10億'}];
-const state={amount:300000000, tomorrow:null, use:null, home:null, profile:{}};
-const money=n=>{if(n>=100000000)return (n/100000000).toFixed(n%100000000?1:0)+'億円'; if(n>=10000)return Math.round(n/10000).toLocaleString()+'万円'; return n.toLocaleString()+'円'};
-function show(id){document.querySelectorAll('.screen').forEach(x=>x.classList.remove('on'));$(id).classList.add('on');window.scrollTo({top:0,behavior:'smooth'})}
-function renderDate(){const d=new Date();$('todayDate').textContent=`${d.getMonth()+1}月${d.getDate()}日　${['日','月','火','水','木','金','土'][d.getDay()]}曜日`;}
-function renderAmounts(){$('amounts').innerHTML=AMOUNTS.map(a=>`<button data-v="${a.v}" class="${a.v===state.amount?'sel':''}">${a.l}</button>`).join('');$('amounts').querySelectorAll('button').forEach(b=>b.onclick=()=>{state.amount=Number(b.dataset.v);renderAmounts()})}
-function captureProfile(){state.profile={work:$('pWork').value.trim()||'今の仕事',family:$('pFamily').value.trim()||'家族',project:$('pProject').value.trim()||'自分のプロジェクト',want:$('pWant').value.trim()||'自由な時間'}}
-$('start').onclick=()=>{captureProfile();$('winMoney').textContent=money(state.amount);$('reveal').innerHTML=`<b>${state.profile.work}</b>も、<br><b>${state.profile.family}</b>との毎日も、<br>今日までは何も変わっていません。<br><br>変わったのは、<b>「選べる」こと</b>だけ。`;show('s1')};
-$('toTomorrow').onclick=()=>renderTomorrow();
-const tomorrowOptions=[
- {id:'same',ico:'🧥',title:'いつも通り出勤する',copy:'誰にも言わず、まずは普通の1日を続ける',days:0,reserve:0},
- {id:'leave',ico:'☕',title:'明日は有休を取る',copy:'まず1日だけ「行かなくていい朝」を味わう',days:24,reserve:500000},
- {id:'three',ico:'🗓️',title:'週3勤務に変える準備をする',copy:'仕事は残しながら、週2日の平日を取り戻す',days:96,reserve:12000000},
- {id:'pause',ico:'🌿',title:'1年間、仕事を休む',copy:'生活費を確保して、家族と自分の時間を最優先する',days:230,reserve:7000000}
-];
-function renderTomorrow(){state.tomorrow=null;$('applyTomorrow').disabled=true;$('tomorrowCopy').textContent=`いつもなら「${state.profile.work}」の準備をしている時間。口座には ${money(state.amount)} あります。`;$('tomorrowChoices').innerHTML=tomorrowOptions.map(o=>`<button class="choice" data-id="${o.id}"><span class="ico">${o.ico}</span><span><b>${o.title}</b><small>${o.copy}</small></span><span class="arrow">›</span></button>`).join('');$('tomorrowChoices').querySelectorAll('.choice').forEach(b=>b.onclick=()=>{state.tomorrow=tomorrowOptions.find(o=>o.id===b.dataset.id);$('tomorrowChoices').querySelectorAll('.choice').forEach(x=>x.classList.toggle('sel',x===b));$('applyTomorrow').disabled=false});show('s2')}
-$('applyTomorrow').onclick=()=>renderWeek();
-function weekCells(types){const labels=['月','火','水','木','金','土','日'];return labels.map((l,i)=>`<div class="d ${types[i]}">${l}</div>`).join('')}
-const useOptions=[
-{id:'family',ico:'👨‍👩‍👦',title:'家族との平日',copy:'息子と公園、妻と昼ごはん'},
-{id:'project',ico:'💻',title:'自分のプロジェクト',copy:'焦らず、育てたいものを進める'},
-{id:'rest',ico:'☕',title:'何もしない時間',copy:'予定を入れない平日を作る'},
-{id:'outing',ico:'🚗',title:'ふらっと出かける',copy:'混んでいない平日に家族で外へ'}
-];
-function renderWeek(){const t=state.tomorrow;let after=['work','work','work','work','work','family','family'];if(t.id==='leave')after=['free','work','work','work','work','family','family'];if(t.id==='three')after=['work','free','work','free','work','family','family'];if(t.id==='pause')after=['free','free','free','free','free','family','family'];$('weekBefore').innerHTML=weekCells(['work','work','work','work','work','family','family']);$('weekAfter').innerHTML=weekCells(after);$('freeDays').textContent=t.days+'日';$('freeCopy').textContent=t.days===0?'まだ時間の使い方は変えていません。だからこそ、次の選択が残っています。':`${state.profile.family}や「${state.profile.project}」に使える平日が、今までより増えました。`;state.use=null;$('applyUse').disabled=true;$('useGrid').innerHTML=useOptions.map(o=>`<button class="use" data-id="${o.id}"><span class="ico">${o.ico}</span><b>${o.title}</b><small>${o.copy}</small></button>`).join('');$('useGrid').querySelectorAll('.use').forEach(b=>b.onclick=()=>{state.use=useOptions.find(o=>o.id===b.dataset.id);$('useGrid').querySelectorAll('.use').forEach(x=>x.classList.toggle('sel',x===b));$('applyUse').disabled=false});show('s3')}
-$('applyUse').onclick=()=>renderHome();
-const homes=[
-{id:'stay',ico:'🛋️',title:'今の家を快適にする',copy:'家具・家電・作業環境をまとめて整える',cost:3000000},
-{id:'near',ico:'🏡',title:'今の生活圏で広い家へ',copy:'家族3人の暮らしを大きく変えず、広さを増やす',cost:80000000},
-{id:'dream',ico:'🌳',title:'庭＋仕事部屋のある家',copy:'息子が遊べて、自分の作業場所もある家にする',cost:120000000},
-{id:'keep',ico:'🧭',title:'家はまだ変えない',copy:'住まいより先に、時間と家族の自由を増やす',cost:0}
-];
-function renderHome(){state.home=null;$('applyHome').disabled=true;$('homeChoices').innerHTML=homes.map(h=>`<button class="home" data-id="${h.id}"><span class="ico">${h.ico}</span><b>${h.title}</b><small>${h.copy}</small><span class="cost">${h.cost?money(h.cost):'0円'}</span></button>`).join('');$('homeChoices').querySelectorAll('.home').forEach(b=>b.onclick=()=>{state.home=homes.find(h=>h.id===b.dataset.id);$('homeChoices').querySelectorAll('.home').forEach(x=>x.classList.toggle('sel',x===b));$('applyHome').disabled=false});show('s4')}
-$('applyHome').onclick=()=>renderYear();
-function renderYear(){const t=state.tomorrow,u=state.use,h=state.home;const remain=Math.max(0,state.amount-t.reserve-h.cost);const extraFamily=Math.round(t.days*(u.id==='family'||u.id==='outing'?0.7:0.3));const projectDays=Math.round(t.days*(u.id==='project'?0.7:0.2));const freeHours=Math.round(t.days*6);let head=t.id==='same'?'見た目は同じ。でも「辞めてもいい」がある。':`${t.days}日の平日を、自分で選べるようになった。`;$('yearHeadline').textContent=head;$('yearSub').textContent=`${state.profile.family}との暮らしと「${state.profile.project}」が、当選前より現実の選択肢になっています。`;$('yearGrid').innerHTML=`
-<div class="metric"><div class="ico">💰</div><b>${money(remain)}</b><small>1年後も残る想定資金</small></div>
-<div class="metric"><div class="ico">🕰️</div><b>${freeHours.toLocaleString()}時間</b><small>仕事以外に戻ってくる時間の目安</small></div>
-<div class="metric"><div class="ico">👨‍👩‍👦</div><b>約${extraFamily}日</b><small>家族に使える平日の目安</small></div>
-<div class="metric"><div class="ico">💻</div><b>約${projectDays}日</b><small>${state.profile.project}に使える日の目安</small></div>`;
-const stories=[];stories.push({when:'1 MONTH',b:h.title,p:h.copy});stories.push({when:'3 MONTHS',b:u.title+'が「特別」ではなくなる',p:`増えた平日を、${u.copy}という形で使い始めています。`});stories.push({when:'1 YEAR',b:'お金より先に、時間の形が変わった',p:`当選前と同じ場所に住んでいても、${state.profile.want}を優先できる選択肢が残っています。`});$('storyWrap').innerHTML=stories.map(s=>`<div class="story"><span class="when">${s.when}</span><b>${s.b}</b><p>${s.p}</p></div>`).join('');
-let st='';let sc='';if(t.id==='three'){st='週3のままでも、1か月まるごと休む年を作れる';sc=`残り${money(remain)}。毎週の自由だけでなく、「今年は家族で長く休む」という使い方もできます。`;}else if(t.id==='pause'){st='1年間休んでも、翌年に「週3で戻る」選択が残る';sc='辞める／続けるの二択ではなく、休む→戻る→自分の仕事を育てる、という順番も選べます。';}else if(u.id==='project'){st=`「${state.profile.project}」に半年だけ本気で振る`;sc='いきなり仕事を辞めなくても、期限を決めて自分のプロジェクトを試す余白があります。';}else{st='今の仕事を続けたままでも、家族の平日を増やせる';sc='当選＝退職ではありません。「辞められる安心」を持ったまま働く未来も成立します。';}$('surpriseTitle').textContent=st;$('surpriseCopy').textContent=sc;
-const alt=t.id==='pause'?tomorrowOptions.find(x=>x.id==='three'):tomorrowOptions.find(x=>x.id==='pause');$('compare').innerHTML=`<div><b>あなたが選んだ1年</b><p>${t.title}<br>${h.title}<br>残り ${money(remain)}</p></div><div><b>別ルート</b><p>${alt.title}<br>家は「${h.id==='keep'?'生活圏で広い家へ':'まだ変えない'}」<br>時間の使い方も変わる</p></div>`;show('s5')}
-$('restart').onclick=()=>{state.tomorrow=null;state.use=null;state.home=null;renderTomorrow()};$('reset').onclick=()=>{location.reload()};renderDate();renderAmounts();
-})();
+const KEY='atattara_chat_first_v20';
+const defaultState=()=>({
+  jackpot:300000000,spent:0,
+  profile:{work:'介護の仕事を週5',family:'家族3人',project:'CAREVAなど自分のプロジェクト',wish:'家族との時間と自由を増やしたい'},
+  work:null,freeWeekdays:0,home:null,travel:null,car:null,project:null,family:null,
+  decisions:[],history:[],turn:0
+});
+let S=load()||defaultState();
+const $=s=>document.querySelector(s);
+const money=n=>Math.max(0,Math.round(n)).toLocaleString('ja-JP')+'円';
+const oku=n=>n>=100000000?(Math.round(n/1000000)/100+'億円'):n>=10000?(Math.round(n/10000).toLocaleString()+'万円'):money(n);
+function save(){localStorage.setItem(KEY,JSON.stringify(S))}
+function load(){try{return JSON.parse(localStorage.getItem(KEY))}catch(e){return null}}
+function remaining(){return Math.max(0,S.jackpot-S.spent)}
+function resolvedCount(){return [S.work,S.home,S.travel,S.car,S.project,S.family].filter(Boolean).length}
+function scrollChat(){const m=$('#messages');requestAnimationFrame(()=>m.scrollTop=m.scrollHeight)}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
+function addMessage(role,text,saveIt=true){
+  const row=document.createElement('div');row.className='msg '+(role==='me'?'me':'ai');
+  if(role==='ai') row.innerHTML=`<div class="avatar">当</div><div class="bubble">${esc(text)}</div>`;
+  else row.innerHTML=`<div class="bubble">${esc(text)}</div>`;
+  $('#messages').appendChild(row);scrollChat();
+  if(saveIt){S.history.push({role,text});S.history=S.history.slice(-60);save()}
+}
+function systemNote(text){const d=document.createElement('div');d.className='systemnote';d.textContent=text;$('#messages').appendChild(d);scrollChat()}
+function typing(on){
+  $('#typing')?.remove(); if(!on)return;
+  const row=document.createElement('div');row.id='typing';row.className='msg ai';row.innerHTML='<div class="avatar">当</div><div class="bubble"><div class="typing"><i></i><i></i><i></i></div></div>';$('#messages').appendChild(row);scrollChat();
+}
+function setQuick(items=[]){const q=$('#quick');q.innerHTML='';items.forEach(x=>{const b=document.createElement('button');b.textContent=x.label;b.onclick=()=>handleUser(x.text||x.label);q.appendChild(b)})}
+function initial(){
+  $('#messages').innerHTML='';
+  if(S.history?.length){S.history.forEach(m=>addMessage(m.role,m.text,false));setQuick(suggestQuick());return}
+  addMessage('ai',`3億円、当たりました。\n\nでも「理想の暮らしを選んで」とは聞きません。\n今の生活の続きとして、まず何したい？\n\nまとまってなくて大丈夫です。`,true);
+  setQuick([{label:'仕事を減らしたい',text:'まず仕事を減らしたいかな'},{label:'家族との時間が欲しい',text:'家族との時間を増やしたい'},{label:'家を考えたい',text:'今より広い家も考えたい'},{label:'何もしない時間が欲しい',text:'しばらく何もしないのもありかも'}]);
+}
+function parseMoneyText(t){
+  const s=t.replace(/[,，\s]/g,'');let total=0,matched=false;
+  const o=s.match(/(\d+(?:\.\d+)?)億/);if(o){total+=parseFloat(o[1])*100000000;matched=true}
+  const m=s.match(/(\d+(?:\.\d+)?)万/);if(m){total+=parseFloat(m[1])*10000;matched=true}
+  if(!matched){const y=s.match(/(\d{6,})円?/);if(y){total=parseInt(y[1],10);matched=true}}
+  return matched?Math.round(total):null;
+}
+function pushDecision(type,title,detail,cost=0){
+  const prev=JSON.parse(JSON.stringify({work:S.work,freeWeekdays:S.freeWeekdays,home:S.home,travel:S.travel,car:S.car,project:S.project,family:S.family,spent:S.spent,decisions:S.decisions}));
+  S.decisions.push({type,title,detail,cost,time:Date.now(),prev});S.decisions=S.decisions.slice(-20);S.spent+=cost;save();
+}
+function updateWork(mode){
+  const map={weekly5:{title:'週5を続ける',free:0},weekly4:{title:'週4にする',free:1},weekly3:{title:'週3にする',free:2},break1y:{title:'1年間休む',free:5},quit:{title:'仕事を辞めて選び直す',free:5}};
+  const x=map[mode];if(!x)return;pushDecision('work','働き方',x.title,0);S.work=x.title;S.freeWeekdays=x.free;save();renderLife('work')
+}
+function infer(text){
+  const t=text.trim();const lower=t.toLowerCase();const price=parseMoneyText(t);
+  const out={intent:'other',price};
+  if(/週\s*3|週三/.test(t)){out.intent='work3';return out}
+  if(/週\s*4|週四/.test(t)){out.intent='work4';return out}
+  if(/辞め|退職|やめたい|仕事しない/.test(t)){out.intent='quit';return out}
+  if(/1年.*休|一年.*休|休職|しばらく休/.test(t)){out.intent='break';return out}
+  if(/仕事|働|勤務|職場/.test(t)){out.intent='work';return out}
+  if(/家|住宅|マンション|戸建|住まい|引っ越/.test(t)){out.intent='home';return out}
+  if(/旅行|温泉|海外|沖縄|北海道|ホテル|旅館/.test(t)){out.intent='travel';return out}
+  if(/車|クルマ|カー|自動車/.test(t)){out.intent='car';return out}
+  if(/careva|プロジェクト|事業|副業|開発|作りたい|起業/i.test(t)){out.intent='project';return out}
+  if(/家族|妻|息子|子ども|子供|夫婦/.test(t)){out.intent='family';return out}
+  if(/何もしない|休みたい|のんびり|自由|ゆっくり/.test(t)){out.intent='rest';return out}
+  if(/suumo|http|www\./i.test(lower)){out.intent='home';return out}
+  return out;
+}
+function responseFor(text,inf){
+  const rem=remaining();
+  switch(inf.intent){
+    case 'work':
+      return {text:`やっぱり最初に「仕事」が来ますね。\n\n今の ${S.profile.work} をいきなりゼロにするより、まず週3くらいに落としてみると、平日が週2日戻ります。\n\nその2日を家族と ${S.profile.project} に使う生活、かなり具体的に想像できます。どうします？`,quick:[{label:'週3にする',text:'週3にしてみる'},{label:'週4くらい',text:'まず週4にする'},{label:'1年休んでみる',text:'1年間いったん休む'},{label:'まだ決めない',text:'まだ仕事は決めないで、他のことも考えたい'}]};
+    case 'work3':
+      updateWork('weekly3');
+      return {text:`週3で置きました。\n\nこれだけで、自分で決められる平日が週2日。ざっくり年間約100日増えます。\n\nそして3億円はまだそのままです。\n\nその平日、最初に何へ使いたい？`,quick:[{label:'家族',text:'まずは家族との時間かな'},{label:'CAREVA',text:'CAREVAを進める時間にしたい'},{label:'平日に出かけたい',text:'平日に家族で出かけたい'},{label:'何もしない',text:'何もしない日も欲しい'}]};
+    case 'work4':
+      updateWork('weekly4');
+      return {text:`週4にしました。\n\n週1日だけでも、年間では約50日の平日が戻ります。\n「辞めるほどではないけど、今より自由」はかなり現実的ですね。\n\nその1日、何に使いたいですか？`,quick:[{label:'家族',text:'家族に使いたい'},{label:'CAREVA',text:'CAREVAに使いたい'},{label:'家のこと',text:'家についても考えたい'}]};
+    case 'quit':
+      updateWork('quit');
+      return {text:`「辞める」を仮置きしました。\n\nこれで通勤や勤務日に合わせて住む場所を選ぶ必要がほぼなくなります。家探しの条件まで変わりますね。\n\n${oku(rem)}あるなら、次は「何を買うか」より、朝起きてどんな1日にしたいかを考えたくなります。`,quick:[{label:'家族中心',text:'朝から家族で過ごしたい'},{label:'自分の事業',text:'CAREVAを本気でやってみたい'},{label:'住む場所を変える',text:'仕事に縛られないなら住む場所も考えたい'}]};
+    case 'break':
+      updateWork('break1y');
+      return {text:`1年間、仕事を止める世界にしました。\n\n「一生辞める」は重いけれど、「1年だけ買う」なら3億円に対してかなり小さい選択です。\n\nこの1年を、家族・休息・${S.profile.project}にどう分けたいですか？`,quick:[{label:'家族を最優先',text:'最初の半年は家族を最優先にしたい'},{label:'事業もやる',text:'週2くらいはCAREVAも進めたい'},{label:'まず何もしない',text:'最初の1ヶ月は何もしないで休みたい'}]};
+    case 'home':{
+      const p=inf.price;
+      if(p && p>1000000){
+        const label=(text.match(/(?:家|住宅|マンション|戸建)[^、。\n]{0,20}/)||['気になっている家'])[0];
+        pushDecision('home','住まい',label,p);S.home={label,price:p};save();renderLife('home');
+        return {text:`その家をMY LIFEに入れました。\n\n購入額は ${oku(p)}。残りは約 ${oku(remaining())}。\n\nここが普通の物件検索と違うところです。この家を選んだ状態で、仕事・旅行・車まで全部考え続けられます。\n\nこの家に住むなら、働き方は今のままにします？`,quick:[{label:'週3にしたい',text:'この家なら仕事は週3にしたい'},{label:'仕事は今のまま',text:'家を買っても仕事は今のままにする'},{label:'旅行もしたい',text:'この家に住みつつ旅行も増やしたい'}]};
+      }
+      return {text:`家も考えたいですよね。\n\nでも「豪邸が欲しい？」より、今の暮らしで何を消したいかの方が自分事になりそうです。\n\nたとえば、広さ・自分の作業部屋・息子が遊べる場所・庭。どれが一番欲しい？\n\nSUUMOなどで気になる家があれば「1億2800万のこの家いい」とそのまま書いても大丈夫です。`,quick:[{label:'作業部屋',text:'自分の作業部屋は欲しい'},{label:'子どもの遊び場',text:'息子が遊べる広さが欲しい'},{label:'庭',text:'庭のある家がいい'},{label:'今の生活圏',text:'生活圏はあまり変えたくない'}]};
+    }
+    case 'travel':
+      if(!S.travel){pushDecision('travel','旅行','平日に家族旅行を増やす',3000000);S.travel={label:'平日に家族旅行を増やす',budget:3000000};save();renderLife('travel')}
+      return {text:`旅行をMY LIFEに入れました。ひとまず年間300万円の「旅行枠」で置いています。\n\n${S.freeWeekdays>=2?'週3勤務なら、土日に合わせなくても出発できます。混雑を避けて平日に1〜2泊、という生活がかなり現実的です。':'働き方も少し減らすと、旅の自由度が一気に上がりそうです。'}\n\n行く回数を増やしたい？ それとも1回を豪華にしたい？`,quick:[{label:'回数を増やす',text:'平日にちょこちょこ旅行したい'},{label:'長く滞在したい',text:'年に1回は1ヶ月くらい旅したい'},{label:'海外も行きたい',text:'海外旅行も増やしたい'}]};
+    case 'car':
+      if(inf.price&&inf.price>100000){pushDecision('car','車',`欲しい車 ${oku(inf.price)}`,inf.price);S.car={label:`欲しい車 ${oku(inf.price)}`,price:inf.price};save();renderLife('car')}
+      else if(!S.car){pushDecision('car','車','欲しい車を検討中',0);S.car={label:'欲しい車を検討中',price:0};save();renderLife('car')}
+      return {text:`車もMY LIFEに追加しました。\n\n今は「車単体」ではなく、家の駐車場や旅行の仕方と一緒に考えたいです。\n${S.home?'家がもう決まっているので、次はその家に置きたい車として考えられます。':'家を先に決めると、駐車場や生活圏から車の選び方も変わります。'}\n\n具体的な車名や価格があれば、そのまま話してください。`,quick:[{label:'家族で使いやすい車',text:'家族で遠出しやすい車がいい'},{label:'憧れの車',text:'せっかくなら憧れの車も欲しい'},{label:'家を先に決める',text:'車より家を先に考えたい'}]};
+    case 'project':
+      if(!S.project){pushDecision('project','挑戦',S.profile.project+'に時間を使う',0);S.project={label:S.profile.project+'に時間を使う'};save();renderLife('project')}
+      return {text:`ここはかなり「あなたの当たったら」ですね。\n\n${S.profile.project} を、生活費のためではなく「やってみたいからやる」に変えられます。\n${S.freeWeekdays>=2?'週3勤務なら、週2日の固定枠を作っても家族時間を残せます。':'仕事を少し減らすだけでも、毎週まとまった時間を確保できます。'}\n\n売上を急がず1年試す、という選択もできます。`,quick:[{label:'週2日やる',text:'週2日はCAREVAに使いたい'},{label:'1年試したい',text:'1年間は売上を気にせず試したい'},{label:'家族時間を先に',text:'でも家族時間を優先したい'}]};
+    case 'family':
+      if(!S.family){pushDecision('family','家族時間','平日の家族時間を増やす',0);S.family={label:'平日の家族時間を増やす'};save();renderLife('family')}
+      return {text:`「家族との時間」をMY LIFEの中心に置きました。\n\n${S.freeWeekdays>=2?`週3勤務なら、年間約${S.freeWeekdays*50}日の平日を自分たちで使えます。`:'今の週5を少し減らすだけでも、平日の家族時間を作れます。'}\n\n土日の混雑を避けて出かけたり、何でもない平日に一緒に昼ごはんを食べたり。大きな買い物より、こういう変化の方が「3億円が入った自分の生活」っぽい気がします。`,quick:[{label:'平日に出かける',text:'平日に家族で出かけたい'},{label:'家も広くしたい',text:'家族3人でもっと広く暮らしたい'},{label:'旅行',text:'家族旅行も増やしたい'}]};
+    case 'rest':
+      return {text:`それもかなり大事だと思います。\n\n3億円当たったら、すぐ「何か始めなきゃ」じゃなくていい。\n朝起きて、仕事に行かず、Macも開かず、予定も入れない日を作れる。\n\nまず1ヶ月だけ何もしない、という世界も置いてみます？`,quick:[{label:'1ヶ月休む',text:'最初の1ヶ月は何もしないで休む'},{label:'週3だけにする',text:'完全に休むより週3勤務かな'},{label:'家族で過ごす',text:'休むなら家族で過ごしたい'}]};
+    default:
+      return contextFallback(text);
+  }
+}
+function contextFallback(text){
+  if(/作業部屋|書斎/.test(text)){return {text:`それ、かなり具体的です。\n\n「豪邸」ではなく、自分の作業部屋があるだけで、今の生活からの差がはっきりします。\n家族の生活空間と、自分が${S.profile.project}を進める場所を分けられる家。\n\nこの条件で家をMY LIFEに追加しておきます。`,after:()=>{pushDecision('home','住まい','自分の作業部屋がある広い家',80000000);S.home={label:'自分の作業部屋がある広い家',price:80000000};save();renderLife('home')},quick:[{label:'今の生活圏で',text:'今の生活圏は変えずに探したい'},{label:'庭も欲しい',text:'庭も欲しい'},{label:'仕事も減らす',text:'その家なら仕事も減らしたい'}]}}
+  if(/1ヶ月|一ヶ月/.test(text)&&/休/.test(text)){return {text:`最初の1ヶ月を「空白」にしました。\n\n何も決めず、仕事から離れて、家族と過ごして、疲れていたら寝る。\n3億円の使い道は、そのあと考えても遅くありません。\n\n1ヶ月後、最初に考えたいのは仕事・家・旅行のどれですか？`,quick:[{label:'仕事',text:'1ヶ月休んだら働き方を考えたい'},{label:'家',text:'1ヶ月休んだら家を考えたい'},{label:'旅行',text:'家族旅行に行きたい'}]}}
+  return {text:`いいですね。今の話はまだ無理に「決定」にしません。\n\nこのアプリでは、話したことを全部すぐ選択肢に固定せず、「検討中」のまま置けるようにしたいです。\n\n今の話から広げるなら、仕事・家族・家・旅行・自分の挑戦のどこにつなげたい？`,quick:[{label:'仕事',text:'仕事の話をしたい'},{label:'家族',text:'家族の話をしたい'},{label:'家',text:'家の話をしたい'},{label:'自分の挑戦',text:'CAREVAの話をしたい'}]};
+}
+async function handleUser(text){
+  text=(text||'').trim();if(!text)return;
+  $('#input').value='';autoGrow();setQuick([]);addMessage('me',text,true);S.turn++;save();typing(true);
+  const inf=infer(text);const res=responseFor(text,inf);
+  await new Promise(r=>setTimeout(r,Math.min(850,360+text.length*7)));
+  typing(false);if(res.after)res.after();addMessage('ai',res.text,true);setQuick(res.quick||suggestQuick());renderLife();
+}
+function suggestQuick(){
+  const a=[];if(!S.work)a.push({label:'仕事を減らしたい',text:'仕事を減らしたい'});if(!S.family)a.push({label:'家族時間',text:'家族との時間を増やしたい'});if(!S.home)a.push({label:'家',text:'家について考えたい'});if(!S.project)a.push({label:'CAREVA',text:'CAREVAを進めたい'});if(S.work&&!S.travel)a.push({label:'旅行',text:'旅行も増やしたい'});return a.slice(0,4)
+}
+function renderLife(changed){
+  const rem=remaining(),count=resolvedCount();$('#topAmount').textContent=money(S.jackpot);$('#topProgress').textContent=`${count} / 6`;$('#mobileCount').textContent=count;
+  const cells=[
+    ['home','🏡','住まい',S.home?.label||'まだ決めていない',!!S.home],
+    ['work','💼','仕事',S.work||'まだ決めていない',!!S.work],
+    ['family','👨‍👩‍👦','家族',S.family?.label||'今の暮らしの続き',!!S.family],
+    ['travel','✈️','旅行',S.travel?.label||'まだ決めていない',!!S.travel],
+    ['car','🚗','車',S.car?.label||'まだ決めていない',!!S.car],
+    ['project','🌱','挑戦',S.project?.label||S.profile.project,!!S.project]
+  ];
+  $('#lifePanel').innerHTML=`<div class="lifehead"><b>MY LIFE</b><span>会話から自動更新</span></div>
+    <div class="profilebox"><small>今の自分</small><p>${esc(S.profile.work)} ／ ${esc(S.profile.family)}<br>${esc(S.profile.wish)}</p></div>
+    <div class="lifegrid">${cells.map(c=>`<div class="lifeitem ${c[4]?'done':''} ${changed===c[0]?'changed':''}"><div class="ico">${c[1]}</div><b>${c[2]}</b><small>${esc(c[3])}</small></div>`).join('')}</div>
+    <div class="moneybox"><small>残っているお金</small><b>${oku(rem)}</b><div class="moneybar"><span style="width:${Math.max(2,rem/S.jackpot*100)}%"></span></div></div>
+    <div class="metrics"><div class="metric"><small>自分で決める平日</small><b>+${S.freeWeekdays*50}日/年</b></div><div class="metric"><small>週の自由平日</small><b>+${S.freeWeekdays}日</b></div></div>
+    <div class="lifebtns"><button class="comparebtn" onclick="openCompare()">別の人生と比較</button><button class="undobtn" onclick="undoLast()">1つ戻す</button></div>
+    <div class="timeline"><div class="timelinehead">これまでの決定</div>${S.decisions.length?S.decisions.slice(-5).reverse().map(d=>`<div class="decision"><i></i><div><b>${esc(d.title)}</b><br>${esc(d.detail)}</div></div>`).join(''):'<div style="font-size:8.5px;color:#89969b">まだ何も決めていません</div>'}</div>`;
+}
+function openCompare(){
+  const alt=makeAlt();const current={work:S.work||'未定',home:S.home?.label||'今のまま',travel:S.travel?.label||'未定',project:S.project?.label||'未定',rem:remaining(),free:S.freeWeekdays*50};
+  openSheet(`<div class="sheettop"><b>2つの「当たったら」</b><button class="close" onclick="closeSheet()">×</button></div>
+  <div class="worlds"><div class="world primary"><div class="wlabel">いま話している世界</div><h3>あなたの現在ルート</h3><div class="worldmoney">${oku(current.rem)}</div><div class="worldrow">💼 ${esc(current.work)}</div><div class="worldrow">🏡 ${esc(current.home)}</div><div class="worldrow">✈️ ${esc(current.travel)}</div><div class="worldrow">🌱 ${esc(current.project)}</div><div class="worldrow">📅 自由平日 +${current.free}日/年</div></div>
+  <div class="world"><div class="wlabel">もし違う選択なら</div><h3>${esc(alt.title)}</h3><div class="worldmoney">${oku(alt.rem)}</div><div class="worldrow">💼 ${esc(alt.work)}</div><div class="worldrow">🏡 ${esc(alt.home)}</div><div class="worldrow">✈️ ${esc(alt.travel)}</div><div class="worldrow">🌱 ${esc(alt.project)}</div><div class="worldrow">📅 自由平日 +${alt.free}日/年</div></div></div>
+  <p class="sheetnote">チャットだけだと流れてしまう「別の人生」を、いつでも横並びで見られるのがこのアプリ側の役目です。</p>`)
+}
+function makeAlt(){
+  if(S.home){return {title:'家は今のまま、時間を買う',rem:S.jackpot-(S.travel?.budget||0)-(S.car?.price||0),work:'1年間いったん休む',home:'今の住まいを維持',travel:'平日旅行を増やす',project:S.profile.project+'を1年試す',free:250}}
+  if(S.work==='週3にする'){return {title:'仕事は週5、資産を多く残す',rem:S.jackpot-S.spent,work:'週5を続ける',home:S.home?.label||'今のまま',travel:S.travel?.label||'必要な時だけ',project:'休日に少しずつ',free:0}}
+  return {title:'最初の1年を完全に休む',rem:S.jackpot-S.spent,work:'1年間休む',home:S.home?.label||'今のまま',travel:'家族で平日に出かける',project:'急がず考える',free:250}
+}
+function undoLast(){
+  const d=S.decisions.at(-1);if(!d){systemNote('戻せる決定はまだありません');return}
+  const p=d.prev;Object.assign(S,{work:p.work,freeWeekdays:p.freeWeekdays,home:p.home,travel:p.travel,car:p.car,project:p.project,family:p.family,spent:p.spent,decisions:p.decisions});save();renderLife();addMessage('ai',`「${d.detail}」をいったん戻しました。\n決め直してもいいし、そのまま別の話をしても大丈夫です。`,true);setQuick(suggestQuick())
+}
+function openProfile(){openSheet(`<div class="sheettop"><b>今の自分を編集</b><button class="close" onclick="closeSheet()">×</button></div><div class="profileform"><label>今の仕事</label><input id="pfWork" value="${esc(S.profile.work)}"><label>家族</label><input id="pfFamily" value="${esc(S.profile.family)}"><label>自分のプロジェクト・やりたいこと</label><input id="pfProject" value="${esc(S.profile.project)}"><label>今いちばん変えたいこと</label><input id="pfWish" value="${esc(S.profile.wish)}"><button class="saveprofile" onclick="saveProfile()">この現在地で話す</button></div><p class="sheetnote">ここを変えると、会話で使う言葉やMY LIFEの表示も変わります。</p>`)}
+function saveProfile(){S.profile.work=$('#pfWork').value.trim()||S.profile.work;S.profile.family=$('#pfFamily').value.trim()||S.profile.family;S.profile.project=$('#pfProject').value.trim()||S.profile.project;S.profile.wish=$('#pfWish').value.trim()||S.profile.wish;save();renderLife();closeSheet();addMessage('ai',`現在地を更新しました。\n「${S.profile.wish}」を前提に、続きを話しましょう。`,true);setQuick(suggestQuick())}
+function openMobileLife(){openSheet(`<div class="sheettop"><b>MY LIFE</b><button class="close" onclick="closeSheet()">×</button></div><div id="mobileLifeContent"></div>`);const tmp=$('#lifePanel').cloneNode(true);tmp.style.display='block';tmp.style.position='static';tmp.style.boxShadow='none';tmp.style.border='0';tmp.style.padding='0';$('#mobileLifeContent').appendChild(tmp)}
+function openSheet(html){$('#sheet').innerHTML=html;$('#sheetBack').classList.add('on')}
+function closeSheet(){$('#sheetBack').classList.remove('on')}
+function resetAll(){if(!confirm('このMY LIFEと会話をリセットしますか？'))return;localStorage.removeItem(KEY);S=defaultState();renderLife();initial()}
+function autoGrow(){const x=$('#input');x.style.height='auto';x.style.height=Math.min(120,x.scrollHeight)+'px'}
+$('#send').onclick=()=>handleUser($('#input').value);$('#input').addEventListener('input',autoGrow);$('#input').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();handleUser($('#input').value)}});$('#profileBtn').onclick=openProfile;$('#resetBtn').onclick=resetAll;$('#mobileLife').onclick=openMobileLife;$('#sheetBack').addEventListener('click',e=>{if(e.target.id==='sheetBack')closeSheet()});
+window.openCompare=openCompare;window.undoLast=undoLast;window.closeSheet=closeSheet;window.saveProfile=saveProfile;
+renderLife();initial();
 </script>
-</body></html>
+</body>
+</html>
