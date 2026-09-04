@@ -120,11 +120,12 @@ function infer(text){
   if(/辞め|退職|やめたい|仕事しない/.test(t)){out.intent='quit';return out}
   if(/1年.*休|一年.*休|休職|しばらく休/.test(t)){out.intent='break';return out}
   if(/仕事|働|勤務|職場/.test(t)){out.intent='work';return out}
-  if(/家|住宅|マンション|戸建|住まい|引っ越/.test(t)){out.intent='home';return out}
   if(/旅行|温泉|海外|沖縄|北海道|ホテル|旅館/.test(t)){out.intent='travel';return out}
   if(/車|クルマ|カー|自動車/.test(t)){out.intent='car';return out}
   if(/careva|プロジェクト|事業|副業|開発|作りたい|起業/i.test(t)){out.intent='project';return out}
-  if(/家族|妻|息子|子ども|子供|夫婦/.test(t)){out.intent='family';return out}
+  if(/家族(?:の話|について|との時間|時間)|家族.*(?:過ご|出かけ)|妻|息子|子ども|子供|夫婦/.test(t)){out.intent='family';return out}
+  if(/家|住宅|マンション|戸建|住まい|引っ越/.test(t)){out.intent='home';return out}
+  if(/家族/.test(t)){out.intent='family';return out}
   if(/何もしない|休みたい|のんびり|自由|ゆっくり/.test(t)){out.intent='rest';return out}
   if(/suumo|http|www\./i.test(lower)){out.intent='home';return out}
   return out;
