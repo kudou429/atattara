@@ -4,346 +4,55 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#102f40">
-<title>当たったら Ver.1.0</title>
+<title>当たったら Ver.1.1</title>
 <style>
-:root{
-  --ink:#163547;--muted:#6f818b;--paper:#fffdf8;--line:#e8e0d7;
-  --warm:#ff8f60;--gold:#f1c978;--navy:#12384c;--teal:#397781;--green:#67a27d;
-  --shadow:0 18px 46px rgba(29,48,59,.13)
-}
-*{box-sizing:border-box}
-html,body{margin:0;min-height:100%;background:linear-gradient(180deg,#f8f2e8,#f5f5f1 48%,#e9f2f1);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;-webkit-tap-highlight-color:transparent}
-button,input,select{font:inherit;color:inherit}button{cursor:pointer}
-.app{max-width:560px;margin:auto;min-height:100vh;padding:calc(8px + env(safe-area-inset-top)) 13px calc(38px + env(safe-area-inset-bottom))}
-.screen{display:none;animation:enter .28s ease}.screen.on{display:block}
-@keyframes enter{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
-.brand{display:flex;justify-content:space-between;align-items:center;margin:5px 4px 12px}
-.brand b{font-size:12px;letter-spacing:.18em;color:#94634f}.brand span{font-size:9px;color:#829097;font-weight:900}
-.card,.hero{background:rgba(255,253,248,.97);border:1px solid var(--line);border-radius:29px;box-shadow:var(--shadow)}
-.card{padding:17px;margin:10px 0}.hero{overflow:hidden}
-.heroPhoto{height:235px;background-position:center;background-size:cover;position:relative}
-.heroPhoto:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(12,35,48,.05),rgba(12,35,48,.72))}
-.heroCopy{padding:19px}.heroCopy h1{font-size:31px;line-height:1.15;letter-spacing:-.045em;margin:9px 0 8px}
-.kicker{display:inline-flex;align-items:center;background:#fff0df;border-radius:99px;padding:7px 10px;color:#975c44;font-size:10px;font-weight:950}
-.lead{font-size:12.5px;line-height:1.65;color:#61737c;margin:0}
-.jackpot{position:absolute;left:14px;right:14px;bottom:14px;z-index:2;color:#fff}
-.jackpot small{font-size:9px;color:#d7e7ea;font-weight:900}.jackpot strong{display:block;font-size:38px;letter-spacing:-.05em;line-height:1;margin:3px 0 10px}
-.amounts{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
-.amounts button{border:1px solid #ffffff55;background:#ffffff1a;color:#fff;border-radius:12px;padding:8px 2px;font-size:10px;font-weight:950;backdrop-filter:blur(6px)}
-.amounts button.sel{background:#fff;color:#995b43;border-color:#fff}
-.sectionTitle{font-size:11px;font-weight:950;color:#886859;margin:15px 1px 8px}
-.priorityGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.priority{border:1px solid var(--line);background:#fff;border-radius:18px;padding:12px;text-align:left}
-.priority .ico{font-size:23px}.priority b{display:block;font-size:12px;margin-top:4px}.priority.sel{border:2px solid var(--warm);background:#fff7f1}
-.primary,.secondary{width:100%;border:0;border-radius:18px;padding:15px 16px;font-weight:950}
-.primary{margin-top:12px;background:linear-gradient(100deg,var(--gold),var(--warm));color:#fff;box-shadow:0 10px 22px rgba(226,128,82,.2)}
-.primary:disabled{opacity:.4}.secondary{margin-top:8px;background:#edf3f3;color:#315b68}
-.micro{font-size:9px;line-height:1.5;color:#89979e;margin-top:9px}
-.step{position:sticky;top:0;z-index:7;margin:0 -13px 10px;padding:9px 13px;background:#f9f4ecdf;backdrop-filter:blur(11px);border-bottom:1px solid #eadfd2;font-size:9.5px;font-weight:900;color:#8f6a5a}
-.photoHeader{height:175px;border-radius:27px;background-position:center;background-size:cover;position:relative;overflow:hidden;margin-bottom:10px}
-.photoHeader:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,32,43,.08),rgba(11,32,43,.72))}
-.photoHeader .copy{position:absolute;z-index:2;left:15px;right:15px;bottom:13px;color:#fff}.photoHeader .copy small{font-size:8px;letter-spacing:.12em;color:#d9e7ea;font-weight:900}.photoHeader .copy strong{display:block;font-size:26px;margin-top:2px}
-.importBox{background:#f4f8f7;border-radius:18px;padding:12px}
-.importBox input,.split input,.split select{width:100%;border:1px solid var(--line);background:#fff;border-radius:14px;padding:11px;outline:none}
-.split{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}.split label{font-size:9.5px;font-weight:900;color:#6f7f87}.split label input,.split label select{display:block;margin-top:5px}
-.or{display:flex;align-items:center;gap:9px;margin:14px 0}.or:before,.or:after{content:"";height:1px;background:#e5ddd4;flex:1}.or span{font-size:8.5px;color:#98a2a6}
-.featureGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
-.feature{border:1px solid var(--line);background:#fff;border-radius:15px;padding:10px 4px;font-size:9.5px;font-weight:900;min-height:58px}.feature .ico{display:block;font-size:18px;margin-bottom:3px}.feature.sel{border:2px solid var(--warm);background:#fff6ef}
-.property{overflow:hidden;border:1px solid var(--line);border-radius:25px;background:#fff;margin:11px 0;box-shadow:0 10px 26px rgba(45,59,67,.08)}
-.propPhoto{height:215px;background-position:center;background-size:cover;position:relative}
-.propPhoto:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(13,38,51,.52))}
-.propBadge{position:absolute;z-index:2;left:11px;bottom:10px;background:#12384cdd;color:#fff;border-radius:99px;padding:6px 9px;font-size:8.5px;font-weight:900}
-.propBody{padding:14px 15px 15px}.price{font-size:27px;font-weight:950;color:#cd704c}.propBody h3{font-size:17px;margin:3px 0 8px}
-.specGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.spec{background:#f1f6f5;border-radius:12px;padding:8px 4px;text-align:center}.spec b{display:block;font-size:10.5px}.spec small{font-size:7.8px;color:#7c8a90}
-.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}.tag{background:#fff1e5;color:#8a5d49;border-radius:99px;padding:5px 7px;font-size:8.5px;font-weight:850}
-.choose{width:100%;border:0;border-radius:14px;padding:12px;margin-top:10px;background:#143b4f;color:#fff;font-weight:950}
-.decision{min-height:79vh;border-radius:31px;overflow:hidden;position:relative;background:#12384c;color:#fff}
-.decisionPhoto{position:absolute;inset:0;background-position:center;background-size:cover}.decisionPhoto:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,30,42,.08),rgba(10,30,42,.92) 72%)}
-.decisionContent{position:absolute;left:18px;right:18px;bottom:19px;z-index:2;text-align:center}
-.decisionContent .ey{font-size:9px;letter-spacing:.14em;color:#d9e9ec;font-weight:900}.decisionContent h2{font-size:28px;line-height:1.2;margin:7px 0}
-.moneyShift{display:flex;justify-content:center;align-items:center;gap:9px;margin:12px 0}.moneyShift span{font-size:13px;color:#c7dce0;text-decoration:line-through}.moneyShift strong{font-size:28px;color:#ffe1a5}
-.purchaseBtn{width:100%;border:0;border-radius:17px;padding:15px;background:linear-gradient(100deg,#f1c878,#ff9161);color:#fff;font-weight:950}.linkBtn{width:100%;border:0;background:transparent;color:#dce8ea;padding:11px;font-weight:850}.linkBtn.dark{color:#74838b}
-.worldWrap{border-radius:30px;overflow:hidden;background:#0f3447;box-shadow:var(--shadow)}
-.worldTop{padding:15px 16px 12px;color:#fff;display:flex;justify-content:space-between;align-items:flex-start;background:linear-gradient(135deg,#103549,#2f6c77)}
-.worldTop small{font-size:8.5px;color:#c6dfe3}.worldTop strong{display:block;font-size:28px;margin-top:2px}.worldTop .remain{text-align:right}.worldTop .remain b{display:block;font-size:19px}
-.worldGrid{display:grid;grid-template-columns:1.1fr .9fr;grid-template-rows:170px 125px 125px;gap:3px;background:#0f3447;padding:3px}
-.worldTile{position:relative;background:#d7e3e3;overflow:hidden;background-position:center;background-size:cover}
-.worldTile.house{grid-row:1/3}.worldTile.travel{grid-column:2}.worldTile.work{grid-column:2}.worldTile.car{grid-column:1}.worldTile.family{grid-column:2}
-.worldTile:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(9,30,41,.72))}
-.worldTile.locked{filter:saturate(.45)}.worldTile.locked:before{content:"";position:absolute;inset:0;z-index:2;background:rgba(238,241,239,.52);backdrop-filter:blur(5px)}
-.worldLabel{position:absolute;z-index:3;left:10px;right:8px;bottom:8px;color:#fff}.worldLabel small{display:block;font-size:7.8px;color:#d8e7ea}.worldLabel b{font-size:11px}
-.worldTile.locked .worldLabel{color:#173547}.worldTile.locked .worldLabel small{color:#5f737d}
-.changed{position:absolute;z-index:4;right:7px;top:7px;background:#ff8f60;color:#fff;border-radius:99px;padding:4px 6px;font-size:7px;font-weight:950;box-shadow:0 5px 12px #733b2430}
-.ripple{margin-top:10px;background:#fff8f2;border:1px solid #f0d7c8;border-radius:20px;padding:12px}.rippleTitle{font-size:10px;font-weight:950;color:#95624d;margin-bottom:8px}.flow{display:flex;gap:6px;align-items:center;overflow:auto}.flow span{flex:0 0 auto;background:#fff;border:1px solid #eadfd5;border-radius:12px;padding:8px;font-size:9.5px;font-weight:900}.flow i{font-style:normal;color:#ca8c6d}
-.surprise{border-radius:22px;padding:15px;margin:10px 0;background:linear-gradient(135deg,#fff4dd,#edf7f6);border:1px solid #eee3d3}.surprise .ey{font-size:8.5px;font-weight:950;color:#9a6a51}.surprise strong{display:block;font-size:16px;margin:4px 0}.surprise p{font-size:10.5px;line-height:1.55;margin:0;color:#687981}
-.workHero{height:180px;border-radius:27px;background-position:center;background-size:cover;position:relative;overflow:hidden}.workHero:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,30,42,.06),rgba(10,30,42,.75))}.workHero .copy{position:absolute;z-index:2;left:14px;right:14px;bottom:12px;color:#fff}.workHero .copy small{font-size:8px;color:#d5e5e8;letter-spacing:.12em}.workHero .copy strong{display:block;font-size:24px;margin-top:2px}
-.work{width:100%;text-align:left;border:1px solid var(--line);background:#fff;border-radius:18px;padding:12px;margin:8px 0;display:grid;grid-template-columns:62px 1fr auto;gap:9px;align-items:center}
-.work.sel{border:2px solid var(--warm);background:#fff7f1}.days{width:62px;height:62px;border-radius:16px;background:#edf5f4;display:grid;place-items:center;text-align:center}.days b{font-size:22px}.days small{font-size:7.8px;color:#6e8389}
-.workCopy b{font-size:12px}.workCopy small{display:block;font-size:8.8px;line-height:1.4;color:#78868d}.reserve{font-size:8px;text-align:right;color:#91614d;font-weight:900}
-.week{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-top:6px}.week span{padding:5px 1px;border-radius:9px;text-align:center;font-size:7.5px;background:#e9eeee}.week span.off{background:#fff0df;color:#9c634d}
-.dayVisual{height:330px;border-radius:30px;background-position:center;background-size:cover;position:relative;overflow:hidden;box-shadow:var(--shadow)}
-.dayVisual:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(9,30,41,.08),rgba(9,30,41,.78))}
-.dayVisual .clock{position:absolute;z-index:2;left:14px;top:14px;background:#12384cdd;color:#fff;border-radius:14px;padding:8px 10px;font-size:10px;font-weight:900}.dayVisual .mood{position:absolute;z-index:2;left:14px;right:14px;bottom:16px;color:#fff}.dayVisual .mood small{font-size:8px;color:#d8e7ea}.dayVisual .mood strong{display:block;font-size:25px;margin-top:2px}
-.dayCard{margin-top:-36px;position:relative;z-index:3}.dayChoices{display:grid;grid-template-columns:1fr 1fr;gap:7px}.dayChoice{border:1px solid var(--line);background:#fff;border-radius:15px;padding:10px;text-align:left}.dayChoice b{display:block;font-size:10.5px}.dayChoice small{font-size:8px;color:#7b8990}.dayChoice.sel{border:2px solid var(--warm);background:#fff7f1}
-.timeline{margin-top:13px}.timeRow{display:grid;grid-template-columns:43px 1fr;gap:8px}.timeRow .time{font-size:9.5px;font-weight:950;color:#96644f}.timeRow .event{border-left:2px solid #eadfd5;padding:0 0 13px 10px}.timeRow b{font-size:10.5px}.timeRow p{font-size:9px;margin:3px 0 0;line-height:1.5}
-.finalHero{border-radius:30px;padding:16px;background:radial-gradient(circle at 88% 7%,#f0c77832,transparent 30%),linear-gradient(145deg,#113649,#2e6975);color:#fff}.finalHero>span{font-size:8.5px;letter-spacing:.14em;color:#bcdbe0}.finalHero h2{font-size:25px;line-height:1.25;margin:8px 0 12px}.finalHero .worldWrap{box-shadow:none}
-.premium{background:#fff;border:1px solid var(--line);border-radius:25px;padding:17px;margin-top:11px;box-shadow:var(--shadow)}.premium small{font-size:8.5px;color:#9a6b55;font-weight:950}.premium h3{font-size:18px;line-height:1.4;margin:6px 0}.premiumPrice{font-size:30px;font-weight:950}.premiumPrice span{font-size:8.5px;color:#7b898f}
-.feedback{display:none;margin-top:9px;background:#f1f6f5;border-radius:13px;padding:10px;font-size:9.5px;line-height:1.5}.feedback.on{display:block}
-.overlay{position:fixed;inset:0;background:#11384cec;z-index:50;display:none;align-items:center;justify-content:center;color:#fff;text-align:center;padding:30px}.overlay.on{display:flex;animation:flash .4s ease}.overlay strong{font-size:31px}.overlay p{color:#d8e8eb;font-size:11px}
-@keyframes flash{from{opacity:0;transform:scale(1.04)}to{opacity:1;transform:none}}
-.credits{font-size:7.5px;line-height:1.5;color:#8c999f;margin:18px 3px 0;text-align:center}
-@media(max-width:390px){.heroPhoto{height:215px}.worldGrid{grid-template-rows:155px 115px 115px}.propPhoto{height:195px}.dayVisual{height:300px}.heroCopy h1{font-size:28px}}
+:root{--ink:#163345;--muted:#71808a;--paper:#fffdf8;--line:#e9e0d5;--warm:#ff9465;--gold:#f3c26f;--navy:#12384b;--green:#5c9978;--shadow:0 18px 42px rgba(37,52,62,.12)}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:linear-gradient(180deg,#f8efe3,#f4f5f1 48%,#e8f1f0);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;-webkit-tap-highlight-color:transparent}button,input{font:inherit;color:inherit}button{cursor:pointer}.app{max-width:580px;margin:auto;min-height:100vh;padding:calc(10px + env(safe-area-inset-top)) 14px calc(44px + env(safe-area-inset-bottom))}.screen{display:none;animation:in .28s ease}.screen.on{display:block}@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin:4px 3px 13px}.brand{font-size:12px;font-weight:950;letter-spacing:.18em;color:#93624e}.ver{font-size:9px;font-weight:900;color:#7f9098;background:#fff;border:1px solid #eee4da;border-radius:99px;padding:5px 8px}.card,.hero{background:rgba(255,253,248,.97);border:1px solid rgba(234,225,215,.95);border-radius:28px;box-shadow:var(--shadow)}.hero{padding:21px}.card{padding:17px;margin:10px 0}.kicker{display:inline-flex;border-radius:99px;background:#fff0df;color:#9c5f45;font-size:10px;font-weight:950;padding:7px 10px}.title{font-size:31px;line-height:1.16;letter-spacing:-.045em;font-weight:950;margin:12px 0 8px}.title.sm{font-size:24px}.lead{font-size:13px;line-height:1.7;color:#60717b;margin:0}.note{font-size:10px;line-height:1.55;color:#8d989e;margin:9px 1px 0}.btn{width:100%;border:0;border-radius:19px;padding:15px 16px;margin-top:13px;background:linear-gradient(100deg,var(--gold),var(--warm));color:#fff;font-weight:950;font-size:15px;box-shadow:0 10px 23px rgba(226,128,82,.20)}.btn.dark{background:linear-gradient(100deg,#14394d,#286777);box-shadow:none}.btn:disabled{opacity:.42}.sub{width:100%;border:0;border-radius:18px;padding:13px 15px;margin-top:8px;background:#edf3f3;color:#315c68;font-weight:900}
+.jackpot{border-radius:26px;background:radial-gradient(circle at 83% 15%,#f5d0883e,transparent 30%),linear-gradient(145deg,#103447,#265f6d);padding:20px 17px;color:#fff;margin:17px 0;overflow:hidden;position:relative}.jackpot:after{content:"";position:absolute;width:180px;height:180px;border:1px solid #ffffff20;border-radius:50%;right:-72px;top:-74px}.jackpot small{font-size:10px;color:#c8e0e5;font-weight:850}.jackpot .big{font-size:39px;font-weight:950;letter-spacing:-.055em;margin:4px 0}.jackpot p{font-size:11px;color:#e4eef0;margin:0}.amounts{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.amounts button{border:1px solid var(--line);background:#fff;border-radius:15px;padding:11px 4px;font-size:12px;font-weight:950}.amounts button.sel{border:2px solid var(--warm);background:#fff6ef;color:#995a42}.section{font-size:11px;font-weight:950;color:#8a695b;margin:16px 1px 8px}.priority{display:grid;grid-template-columns:1fr 1fr;gap:8px}.pbtn{border:1px solid var(--line);background:#fff;border-radius:18px;padding:13px;text-align:left}.pbtn span{font-size:24px}.pbtn b{display:block;font-size:12px;margin-top:4px}.pbtn.sel{border:2px solid var(--warm);background:#fff7f1}
+.step{position:sticky;top:0;z-index:10;margin:0 -14px 12px;padding:8px 14px;background:#f8f3ecdf;backdrop-filter:blur(12px);border-bottom:1px solid #eadfd5}.stepdots{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}.stepdots i{height:5px;border-radius:99px;background:#ddd7cf}.stepdots i.on{background:linear-gradient(90deg,var(--gold),var(--warm))}.steptxt{display:flex;justify-content:space-between;margin-top:5px;font-size:9px;font-weight:900;color:#8b6a5c}
+.choice{overflow:hidden;border:1px solid var(--line);background:#fff;border-radius:24px;margin:10px 0;box-shadow:0 10px 26px rgba(45,58,66,.07)}.photo{height:178px;background-size:cover;background-position:center;position:relative}.photo:after{content:"";position:absolute;inset:auto 0 0;height:50%;background:linear-gradient(transparent,#102f40b8)}.phototag{position:absolute;left:12px;bottom:11px;z-index:2;color:#fff;font-size:10px;font-weight:900;background:#12384bcc;padding:6px 9px;border-radius:99px}.body{padding:14px 15px 15px}.body h3{font-size:17px;margin:2px 0 6px}.price{font-size:25px;font-weight:950;color:#cc704d}.specs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:9px 0}.spec{background:#f1f5f4;border-radius:12px;padding:8px 5px;text-align:center}.spec b{display:block;font-size:11px}.spec small{font-size:8.5px;color:#7b8a91}.select{width:100%;border:0;border-radius:14px;background:#173d50;color:#fff;padding:12px;font-weight:950}.selected{outline:3px solid #ff9a6a;outline-offset:-2px}.custom{background:#f4f7f6;border-radius:20px;padding:14px;margin-top:12px}.field{margin:9px 0}.field label{display:block;font-size:10px;font-weight:900;margin-bottom:5px}.field input{width:100%;border:1px solid var(--line);background:#fff;border-radius:14px;padding:11px 12px;outline:none}.twocol{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.worldhero{overflow:hidden;border-radius:28px;min-height:280px;position:relative;background-size:cover;background-position:center;box-shadow:var(--shadow)}.worldhero:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#0e2f4012 25%,#0e2f40e8 100%)}.worldcopy{position:absolute;z-index:2;left:18px;right:18px;bottom:17px;color:#fff}.worldcopy small{font-size:9px;letter-spacing:.12em;font-weight:900;color:#d2e6ea}.worldcopy h2{font-size:28px;line-height:1.13;margin:5px 0}.worldcopy p{font-size:11px;line-height:1.5;margin:0;color:#e3edef}.balance{margin:10px 0;border-radius:23px;background:#14394d;color:#fff;padding:15px 16px}.balance small{font-size:9px;color:#c9e0e5}.balance b{display:block;font-size:30px;margin:3px 0}.balance .bar{height:6px;background:#ffffff24;border-radius:99px;overflow:hidden}.balance .bar span{display:block;height:100%;background:linear-gradient(90deg,#f4cc78,#ff9868);border-radius:99px}
+.worldgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.tile{height:148px;border-radius:20px;overflow:hidden;position:relative;background-size:cover;background-position:center;border:1px solid #e8dfd5}.tile:after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 34%,#102f40d8)}.tile.locked{filter:saturate(.7)}.tile .tcopy{position:absolute;z-index:2;left:11px;right:11px;bottom:10px;color:#fff}.tile .tcopy small{font-size:8px;color:#dce9ec}.tile .tcopy b{display:block;font-size:13px;margin-top:2px}.tile .status{position:absolute;z-index:2;right:8px;top:8px;background:#ffffffdc;color:#5b6d76;border-radius:99px;padding:4px 6px;font-size:7px;font-weight:950}.tile.active .status{background:#ff9164;color:#fff}
+.optiongrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.opt{border:1px solid var(--line);background:#fff;border-radius:19px;overflow:hidden;text-align:left;padding:0}.opt .thumb{height:92px;background-size:cover;background-position:center}.opt .ocopy{padding:10px}.opt b{display:block;font-size:12px}.opt small{font-size:9px;color:#71818a;line-height:1.4}.opt.sel{border:2px solid var(--warm);background:#fff7f1}
+.bookWrap{background:linear-gradient(160deg,#102f40,#1d5967);border-radius:30px;padding:17px;margin-top:10px;box-shadow:0 24px 55px rgba(27,48,58,.22)}.bookCover{height:365px;border-radius:23px;overflow:hidden;position:relative;background-size:cover;background-position:center;box-shadow:0 18px 35px rgba(0,0,0,.25)}.bookCover:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#0c2f401a,#0c2f40e8)}.covercopy{position:absolute;z-index:2;left:18px;right:18px;bottom:18px;color:#fff}.covercopy small{font-size:9px;letter-spacing:.18em;font-weight:900;color:#d7e7ea}.covercopy h2{font-size:31px;line-height:1.08;margin:8px 0}.covercopy p{font-size:10.5px;line-height:1.5;color:#e5eef0;margin:0}.bookPrice{display:flex;justify-content:space-between;align-items:center;color:#fff;padding:14px 2px 2px}.bookPrice b{font-size:26px}.bookPrice span{font-size:10px;color:#c9dee2}.page{background:#fff;border-radius:24px;margin:11px 0;overflow:hidden;border:1px solid var(--line);box-shadow:0 9px 24px rgba(42,56,64,.07)}.pageimg{height:192px;background-size:cover;background-position:center;position:relative}.pageimg:after{content:"";position:absolute;inset:auto 0 0;height:45%;background:linear-gradient(transparent,#173647a8)}.pageno{position:absolute;z-index:2;left:11px;bottom:10px;background:#ffffffdd;color:#344e5a;border-radius:99px;padding:5px 7px;font-size:8px;font-weight:950}.pagebody{padding:14px 15px 16px}.pagebody small{font-size:9px;color:#9a6a55;font-weight:900}.pagebody h3{font-size:18px;margin:5px 0 6px}.pagebody p{font-size:11px;line-height:1.65;color:#6b7a82;margin:0}.compare{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.compare div{border-radius:15px;background:#f1f5f4;padding:10px;font-size:9.5px;line-height:1.45}.compare b{display:block;font-size:11px;margin-bottom:3px}.premiumList{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:11px 0}.premiumList div{background:#ffffff12;border:1px solid #ffffff1f;color:#fff;border-radius:15px;padding:10px;font-size:9.5px;line-height:1.4}.feedback{display:grid;grid-template-columns:1fr 1fr;gap:8px}.feedback button{border:1px solid var(--line);border-radius:17px;background:#fff;padding:12px;font-weight:900}.feedback button.sel{border:2px solid var(--warm);background:#fff7f1}.thanks{display:none;margin-top:9px;border-radius:15px;background:#edf6f1;color:#47765c;padding:11px;font-size:10.5px;font-weight:850}.thanks.on{display:block}
+@media(max-width:390px){.title{font-size:28px}.worldhero{min-height:250px}.bookCover{height:330px}.tile{height:138px}}
 </style>
 </head>
-<body>
-<main class="app">
-<header class="brand"><b>当 た っ た ら</b><span>Ver.1.0</span></header>
-
-<section id="s0" class="screen on">
-  <div class="hero">
-    <div class="heroPhoto" style="background-image:url('https://images.unsplash.com/photo-1758448756207-54505680d130?auto=format&fit=crop&w=1200&q=82')">
-      <div class="jackpot"><small>もし、今日当たったら</small><strong id="jackpotText">3億円</strong><div id="amounts" class="amounts"></div></div>
-    </div>
-    <div class="heroCopy">
-      <span class="kicker">VISUAL LIFE EXPERIENCE</span>
-      <h1>お金ではなく、<br>「その後の景色」を選ぶ。</h1>
-      <p class="lead">家を決めると、仕事・旅行・車・家族時間の景色まで変わっていきます。</p>
-      <div class="sectionTitle">最初に増やしたいもの</div>
-      <div id="priority" class="priorityGrid"></div>
-      <button id="start" class="primary">この人生を始める</button>
-      <div class="micro">体験用プロトタイプです。物件・金額は架空または概算です。</div>
-    </div>
-  </div>
-</section>
-
-<section id="s1" class="screen">
-  <div class="step">01 / 05　最初の大きな夢を決める</div>
-  <div class="photoHeader" style="background-image:url('https://images.unsplash.com/photo-1769806399181-f04bb541122b?auto=format&fit=crop&w=1200&q=82')">
-    <div class="copy"><small>DREAM SEARCH</small><strong>本当に住みたい家を選ぶ</strong></div>
-  </div>
-  <div class="card">
-    <div class="sectionTitle">SUUMOなどで見つけた夢を持ち込む</div>
-    <div class="importBox">
-      <input id="realTitle" placeholder="例：気になった○○邸">
-      <div class="split"><input id="realPrice" inputmode="numeric" placeholder="価格（万円）"><input id="realUrl" placeholder="URL（任意）"></div>
-      <button id="useReal" class="secondary">この夢を候補に追加</button>
-    </div>
-    <div class="or"><span>または</span></div>
-    <div class="sectionTitle">条件から妄想する</div>
-    <div class="split">
-      <label>エリア<input id="area" value="今の生活圏"></label>
-      <label>予算上限<select id="budget"></select></label>
-    </div>
-    <div class="split">
-      <label>住まい<select id="type"><option>戸建て</option><option>マンション</option></select></label>
-      <label>広さ<select id="size"><option value="100">100㎡以上</option><option value="120" selected>120㎡以上</option><option value="150">150㎡以上</option></select></label>
-    </div>
-    <div class="sectionTitle">絶対ほしい</div>
-    <div id="features" class="featureGrid"></div>
-    <button id="search" class="primary">3つの暮らしを見る</button>
-  </div>
-</section>
-
-<section id="s2" class="screen">
-  <div class="step">02 / 05　「住んでいる自分」が想像できる家は？</div>
-  <div id="results"></div>
-  <button id="editSearch" class="secondary">条件を変える</button>
-</section>
-
-<section id="s3" class="screen">
-  <div class="decision">
-    <div id="decisionPhoto" class="decisionPhoto"></div>
-    <div class="decisionContent">
-      <div class="ey">DECISION</div>
-      <h2 id="purchaseTitle"></h2>
-      <div class="moneyShift"><span id="beforeMoney"></span><b>→</b><strong id="afterMoney"></strong></div>
-      <button id="confirmPurchase" class="purchaseBtn">この家に住む</button>
-      <button id="cancelPurchase" class="linkBtn">戻る</button>
-    </div>
-  </div>
-</section>
-
-<section id="s4" class="screen">
-  <div class="step">03 / 05　家を決めた瞬間、世界が変わる</div>
-  <div id="world"></div>
-  <div id="ripple"></div>
-  <div id="surprise"></div>
-  <button id="toWork" class="primary">次は働き方を変えてみる</button>
-</section>
-
-<section id="s5" class="screen">
-  <div class="step">04 / 05　仕事を変えると、見える景色が変わる</div>
-  <div class="workHero" style="background-image:url('https://images.unsplash.com/photo-1758718035858-f61532c54d66?auto=format&fit=crop&w=1200&q=82')">
-    <div class="copy"><small>WORK SIMULATOR</small><strong>この家で、どう働く？</strong></div>
-  </div>
-  <div class="card"><div id="works"></div><button id="applyWork" class="primary" disabled>この働き方にする</button></div>
-</section>
-
-<section id="s6" class="screen">
-  <div class="step">05 / 05　2つの選択でMY WORLDがここまで変わった</div>
-  <div id="world2"></div>
-  <div id="surprise2"></div>
-  <button id="toDay" class="primary">この生活の平日を1日だけ見る</button>
-</section>
-
-<section id="s7" class="screen">
-  <div id="dayVisual" class="dayVisual">
-    <div class="clock">火曜日 10:08</div>
-    <div class="mood"><small>AFTER WINNING</small><strong id="dayMood">今日は、急がなくていい。</strong></div>
-  </div>
-  <div class="card dayCard">
-    <span class="kicker">A DAY AFTER WINNING</span>
-    <div class="sectionTitle">この平日、何をしたい？</div>
-    <div id="dayChoices" class="dayChoices"></div>
-    <div id="timeline"></div>
-    <button id="finish" class="primary" disabled>完成したMY WORLDを見る</button>
-  </div>
-</section>
-
-<section id="s8" class="screen">
-  <div class="finalHero">
-    <span>MY WORLD</span>
-    <h2>これは、あなたが選んだ<br>「当たった後の景色」。</h2>
-    <div id="finalWorld"></div>
-  </div>
-  <div id="finalSuggestion"></div>
-  <div class="premium">
-    <small>NEXT</small>
-    <h3>旅行・車・家族・挑戦まで、<br>この世界を全部あなた仕様に。</h3>
-    <div class="premiumPrice">¥500 <span>買い切り想定</span></div>
-    <button id="payIntent" class="primary">この世界の続きを作りたい</button>
-    <div id="payFeedback" class="feedback">購入意向だけを端末内に保存しました。Ver.1.0では実際の決済は発生しません。</div>
-  </div>
-  <button id="restart" class="linkBtn dark">最初からやり直す</button>
-  <div class="credits">Photos: Unsplash / Aalo Lens, Maximilian Bungart, Annie Spratt, Niko Samik, backtest indonesia</div>
-</section>
+<body><main class="app">
+<div class="topbar"><div class="brand">当 た っ た ら</div><div class="ver">Ver.1.1 / PRODUCT TEST</div></div>
+<section id="s0" class="screen on"><div class="hero"><span class="kicker">無料でMY WORLDを完成</span><div class="title">当たった後の人生を、<br>最後まで作ってみる。</div><p class="lead">課金はまだありません。最後に「500円なら何が完成するか」まで体験できます。</p><div class="jackpot"><small>もし、今日当たったら</small><div id="jpBig" class="big">3億円</div><p id="jpCopy">家も、時間も、旅行も。複数の夢を同時に考えられる。</p></div><div id="amounts" class="amounts"></div><div class="section">いちばん大事にしたいもの</div><div id="priorities" class="priority"></div><button id="start" class="btn">私の当選後を作る →</button></div></section>
+<section id="s1" class="screen"><div class="step"><div class="stepdots"><i class="on"></i><i></i><i></i><i></i></div><div class="steptxt"><span>住まい</span><span>暮らし</span></div></div><div class="card"><span class="kicker">01 / HOME</span><div class="title sm">最初に、帰る場所を決める。</div><p class="lead">実在の物件を見つけているなら、下から持ち込むこともできます。</p></div><div id="homes"></div><div class="custom"><b style="font-size:12px">SUUMOなどで見つけた家を持ち込む</b><div class="twocol"><div class="field"><label>候補名</label><input id="customName" placeholder="例：調布の庭付き戸建て"></div><div class="field"><label>価格（万円）</label><input id="customPrice" inputmode="numeric" placeholder="12800"></div></div><div class="field"><label>URL（任意・保存用）</label><input id="customUrl" placeholder="https://..."></div><button id="useCustom" class="sub">この家をMY WORLDに入れる</button></div><button id="homeNext" class="btn" disabled>この家で暮らしを作る →</button></section>
+<section id="s2" class="screen"><div class="step"><div class="stepdots"><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="steptxt"><span>住まい決定</span><span>暮らしを選ぶ</span></div></div><div id="worldMini"></div><div class="card"><span class="kicker">02 / LIFE</span><div class="title sm">次に、時間の使い方を決める。</div><div class="section">働き方</div><div id="works" class="optiongrid"></div><div class="section">旅行</div><div id="trips" class="optiongrid"></div><div class="section">車</div><div id="cars" class="optiongrid"></div><div class="section">挑戦</div><div id="challenges" class="optiongrid"></div><button id="lifeNext" class="btn" disabled>MY WORLDを完成させる →</button></div></section>
+<section id="s3" class="screen"><div class="step"><div class="stepdots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div><div class="steptxt"><span>MY WORLD完成</span><span>商品プレビューへ</span></div></div><div id="worldFull"></div><div class="card"><span class="kicker">FREE COMPLETE</span><div class="title sm">ここまでは、全部無料。</div><p class="lead">この先は「続きを解放する」のではなく、今作った世界を<strong>自分だけの作品にする</strong>としたら、欲しいかを試します。</p><button id="previewBook" class="btn dark">500円の商品を見てみる →</button></div></section>
+<section id="s4" class="screen"><div class="step"><div class="stepdots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div><div class="steptxt"><span>商品モック</span><span>課金はされません</span></div></div><div class="bookWrap"><div id="bookCover" class="bookCover"><div class="covercopy"><small>YOUR LIFE AFTER WINNING</small><h2 id="coverTitle">3億円が当たった、<br>あなたのこれから。</h2><p id="coverSub"></p></div></div><div class="bookPrice"><div><span>想定価格</span><b>500円</b></div><span>AI画像＋人生BOOK<br>※今回は商品モック</span></div><div class="premiumList"><div>🖼️ 理想の家をAIで再構成</div><div>☀️ 平日の朝をビジュアル化</div><div>✈️ 家族旅行の1シーン</div><div>🔀 別の人生ルート比較</div><div>📖 1年後のストーリー</div><div>💾 保存できる1冊の作品</div></div></div><div id="pages"></div><div class="card"><span class="kicker">PAY TEST</span><div class="title sm">これが自分専用で完成するなら？</div><p class="lead">実際の決済はありません。今は「500円を払いたいと思える商品になっているか」だけ確認します。</p><div id="feedback" class="feedback"><button data-v="yes">500円なら欲しい</button><button data-v="no">まだ払わない</button></div><div id="thanks" class="thanks">ありがとうございます。この感覚を次の判断材料にします。</div><button id="again" class="sub">別の人生でもう一度</button></div></section>
 </main>
-<div id="overlay" class="overlay"></div>
-
 <script>
-const $=id=>document.getElementById(id),yen=n=>'¥'+new Intl.NumberFormat('ja-JP').format(Math.max(0,Math.round(n)));
-const IMG={
-  home1:'https://images.unsplash.com/photo-1758448756207-54505680d130?auto=format&fit=crop&w=1200&q=82',
-  home2:'https://images.unsplash.com/photo-1769806399181-f04bb541122b?auto=format&fit=crop&w=1200&q=82',
-  home3:'https://images.unsplash.com/photo-1759369484704-fefd537878f1?auto=format&fit=crop&w=1200&q=82',
-  work:'https://images.unsplash.com/photo-1758718035858-f61532c54d66?auto=format&fit=crop&w=1200&q=82',
-  travel:'https://images.unsplash.com/photo-1772305436753-e308844ecda2?auto=format&fit=crop&w=1200&q=82',
-  car:'https://images.unsplash.com/photo-1759369484704-fefd537878f1?auto=format&fit=crop&w=1200&q=82'
-};
-const A=[{v:1e7,l:'1,000万'},{v:1e8,l:'1億'},{v:3e8,l:'3億'},{v:1e9,l:'10億'}];
-const P=[['👨‍👩‍👦','家族'],['🕊️','自由'],['✈️','旅行'],['🌱','挑戦']];
-const F=[['🌿','庭'],['💻','書斎'],['🧸','遊び部屋'],['🛁','大きな風呂'],['🍳','アイランドK'],['🚗','2台駐車']];
-const WORK=[
- {name:'今まで通り',days:5,reserve:0,copy:'収入を残し、次の夢を大きくする。'},
- {name:'週4にする',days:4,reserve:6000000,copy:'毎週1日を家族か自分に返す。'},
- {name:'週3にする',days:3,reserve:15000000,copy:'平日が2日空く。旅行や挑戦が現実になる。'},
- {name:'1年間休む',days:0,reserve:7000000,copy:'まず1年、人生を急がない。'}
-];
-let S={amount:3e8,priority:'家族',features:new Set(['庭','書斎','遊び部屋']),home:null,work:null,real:null,day:null};
-function show(id){document.querySelectorAll('.screen').forEach(x=>x.classList.remove('on'));$(id).classList.add('on');scrollTo(0,0)}
-function amountLabel(){return A.find(x=>x.v===S.amount)?.l||''}
-function renderAmounts(){
- $('amounts').innerHTML=A.map(x=>`<button class="${x.v===S.amount?'sel':''}" data-v="${x.v}">${x.l}</button>`).join('');
- $('jackpotText').textContent=amountLabel();
- document.querySelectorAll('#amounts button').forEach(b=>b.onclick=()=>{S.amount=+b.dataset.v;renderAmounts()})
-}
-function renderPriority(){
- $('priority').innerHTML=P.map(x=>`<button class="priority ${S.priority===x[1]?'sel':''}" data-v="${x[1]}"><span class="ico">${x[0]}</span><b>${x[1]}</b></button>`).join('');
- document.querySelectorAll('.priority').forEach(b=>b.onclick=()=>{S.priority=b.dataset.v;renderPriority()})
-}
-function renderFeatures(){
- $('features').innerHTML=F.map(x=>`<button class="feature ${S.features.has(x[1])?'sel':''}" data-v="${x[1]}"><span class="ico">${x[0]}</span>${x[1]}</button>`).join('');
- document.querySelectorAll('.feature').forEach(b=>b.onclick=()=>{let v=b.dataset.v;S.features.has(v)?S.features.delete(v):S.features.add(v);renderFeatures()})
-}
-function budgetOptions(){
- let opts=S.amount<=1e7?[300,500,700,1000]:S.amount<=1e8?[4000,6000,8000,10000]:S.amount<=3e8?[7000,9000,12000,15000]:[10000,15000,20000,30000];
- $('budget').innerHTML=opts.map(v=>`<option value="${v*1e4}">${v>=10000?(v/10000)+'億円':v.toLocaleString()+'万円'}</option>`).join('');
- $('budget').selectedIndex=Math.min(1,opts.length-1)
-}
-function makeCandidates(){
- let cap=+$('budget').value,base=Math.min(cap,S.amount*.42),area=$('area').value||'希望エリア',size=+$('size').value,type=$('type').value,feat=[...S.features];
- let list=[
-  {name:'家族時間を広げる家',price:Math.round(base*.82/1e5)*1e5,area,type,size:size+5,ldk:27,tags:feat.slice(0,4),img:IMG.home1},
-  {name:'余白を贅沢にした家',price:Math.round(base*.97/1e5)*1e5,area,type,size:size+24,ldk:31,tags:[...feat.slice(0,3),'収納多め'],img:IMG.home2},
-  {name:'「せっかくなら」を叶える家',price:Math.round(Math.min(cap,base*1.12)/1e5)*1e5,area,type,size:size+42,ldk:34,tags:[...feat.slice(0,3),'2台駐車'],img:IMG.home3}
- ];
- if(S.real)list.unshift({name:S.real.title,price:S.real.price,area:'あなたが見つけた候補',type:'実在候補',size:'—',ldk:'—',tags:['実在リンク持込'],img:IMG.home2,kind:'real',url:S.real.url});
- return list.slice(0,3)
-}
-function renderResults(){
- let list=makeCandidates();
- $('results').innerHTML=list.map((c,i)=>`<article class="property"><div class="propPhoto" style="background-image:url('${c.img}')"><span class="propBadge">${c.kind==='real'?'あなたが見つけた候補':c.area}</span></div><div class="propBody"><div class="price">${yen(c.price)}</div><h3>${c.name}</h3><div class="specGrid"><div class="spec"><b>${c.type}</b><small>タイプ</small></div><div class="spec"><b>${c.size}${typeof c.size==='number'?'㎡':''}</b><small>広さ</small></div><div class="spec"><b>${c.ldk}${typeof c.ldk==='number'?'畳':''}</b><small>LDK</small></div></div><div class="tags">${c.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div><button class="choose" data-i="${i}">この家で暮らす自分を見る</button></div></article>`).join('');
- document.querySelectorAll('.choose').forEach(b=>b.onclick=()=>{S.home=list[+b.dataset.i];preparePurchase()})
-}
-function preparePurchase(){
- S.home.total=Math.round(S.home.price*1.07);S.home.remaining=S.amount-S.home.total;
- $('purchaseTitle').textContent=S.home.name;$('beforeMoney').textContent=yen(S.amount);$('afterMoney').textContent=yen(S.home.remaining);
- $('decisionPhoto').style.backgroundImage=`url('${S.home.img}')`;show('s3')
-}
-function overlay(){
- let ov=$('overlay');ov.innerHTML=`<div><strong>景色が変わりました。</strong><p>家を決めたことで、仕事・車・家族時間・旅行の条件が更新されます。</p></div>`;
- ov.classList.add('on');setTimeout(()=>{ov.classList.remove('on');renderWorld('world',false);renderRipple();renderSurprise('surprise',false);show('s4')},1350)
-}
-function rem(withWork){return S.home.remaining-(withWork&&S.work?S.work.reserve:0)}
-function worldHTML(withWork){
- let r=rem(withWork),week=withWork&&S.work?`${S.work.days}日 / 週`:'未決定';
- let travelLocked=!withWork,carLocked=true,familyLocked=!withWork;
- return `<div class="worldWrap"><div class="worldTop"><div><small>MY WORLD / ${S.home.area}</small><strong>${amountLabel()}の人生</strong></div><div class="remain"><small>残り</small><b>${yen(r)}</b></div></div><div class="worldGrid">
- <div class="worldTile house" style="background-image:url('${S.home.img}')"><div class="worldLabel"><small>HOME</small><b>${S.home.name}</b></div></div>
- <div class="worldTile work ${withWork?'':'locked'}" style="background-image:url('${IMG.work}')">${withWork?'<span class="changed">NEW</span>':''}<div class="worldLabel"><small>WORK</small><b>${withWork?S.work.name:week}</b></div></div>
- <div class="worldTile travel ${travelLocked?'locked':''}" style="background-image:url('${IMG.travel}')">${withWork?'<span class="changed">可能性↑</span>':''}<div class="worldLabel"><small>TRAVEL</small><b>${withWork&&S.work.days<=3?'平日から長めの旅へ':'まだ未決定'}</b></div></div>
- <div class="worldTile car ${carLocked?'locked':''}" style="background-image:url('${IMG.car}')"><div class="worldLabel"><small>CAR</small><b>${S.features.has('2台駐車')?'2台持ちもできる':'まだ未決定'}</b></div></div>
- <div class="worldTile family ${familyLocked?'locked':''}" style="background-image:url('${IMG.travel}')">${withWork?'<span class="changed">平日時間↑</span>':''}<div class="worldLabel"><small>FAMILY</small><b>${withWork&&S.work.days<=4?'週末を待たなくていい':'休日の景色が変化'}</b></div></div>
- </div></div>`
-}
-function renderWorld(id,withWork){$(id).innerHTML=worldHTML(withWork)}
-function renderRipple(){
- let flows=['🏡 家を決定'];if(S.features.has('2台駐車'))flows.push('🚗 車の自由↑');if(S.features.has('庭'))flows.push('👨‍👩‍👦 家で過ごす価値↑');flows.push('💼 働き方を再考');
- $('ripple').innerHTML=`<div class="ripple"><div class="rippleTitle">この決断の波紋</div><div class="flow">${flows.map((x,i)=>`${i?'<i>→</i>':''}<span>${x}</span>`).join('')}</div></div>`
-}
-function surpriseText(after=false){
- if(!after){if(S.home.remaining>1.5e8)return ['まだ「2年の自由」を先に買えます','この家を買ったあとでも、2年間焦らず働き方を変える余裕があります。'];if(S.priority==='旅行')return ['家を買っても、旅行を主役にできます','長期旅行用の予算を別に置いても、まだ余裕があります。'];return ['次は「時間」を買うと景色が変わります','週3勤務にすると、この家で過ごす平日そのものが増えます。']}
- if(S.work.days<=3)return ['平日に家族で出かける世界が開きました','週末を待たずに、空いている日に旅行や外出を選べます。'];
- return ['安心を残したまま、次の夢を大きくできます','仕事を残す分、旅行や車に回す余裕を厚くできます。']
-}
-function renderSurprise(id,after){let [a,b]=surpriseText(after);$(id).innerHTML=`<div class="surprise"><div class="ey">✦ こんな未来もあります</div><strong>${a}</strong><p>${b}</p></div>`}
-function renderWorks(){
- $('works').innerHTML=WORK.map((w,i)=>`<button class="work ${S.work===w?'sel':''}" data-i="${i}"><span class="days"><span><b>${w.days}</b><small>日 / 週</small></span></span><span class="workCopy"><b>${w.name}</b><small>${w.copy}</small><span class="week">${['月','火','水','木','金','土','日'].map((d,j)=>`<span class="${j>=w.days&&j<5?'off':''}">${d}</span>`).join('')}</span></span><span class="reserve">${w.reserve?yen(w.reserve)+'\n余裕予算':'追加予算\nなし'}</span></button>`).join('');
- document.querySelectorAll('.work').forEach(b=>b.onclick=()=>{S.work=WORK[+b.dataset.i];renderWorks();$('applyWork').disabled=false})
-}
-const DAY=[
- {ico:'☕',name:'何もしない朝',img:IMG.home1,mood:'今日は、急がなくていい。'},
- {ico:'👨‍👩‍👦',name:'家族と過ごす',img:IMG.travel,mood:'平日なのに、家族の時間がある。'},
- {ico:'💻',name:'自分の仕事を作る',img:IMG.work,mood:'売れるかより、作りたいものを。'},
- {ico:'🚗',name:'ふらっと出かける',img:IMG.car,mood:'予定を決めずに、出かける。'}
-];
-function renderDayChoices(){
- $('dayChoices').innerHTML=DAY.map(x=>`<button class="dayChoice ${S.day===x.name?'sel':''}" data-v="${x.name}"><b>${x.ico} ${x.name}</b><small>この景色で1日を見る</small></button>`).join('');
- document.querySelectorAll('.dayChoice').forEach(b=>b.onclick=()=>{S.day=b.dataset.v;let d=DAY.find(x=>x.name===S.day);$('dayVisual').style.backgroundImage=`url('${d.img}')`;$('dayMood').textContent=d.mood;renderDayChoices();renderTimeline();$('finish').disabled=false})
-}
-function renderTimeline(){
- let mood=S.day||'何もしない朝',events=mood.includes('家族')?[['8:30','ゆっくり朝食','急いで出勤しなくていい。'],['10:30','平日の外出','混雑を避けて、家族で出かける。'],['12:30','好きな店でランチ','週末を待たなくていい。'],['15:00','まだ時間がある','帰宅後も夕方を急がない。'],['20:30','明日も余白','当選額が家族時間に変わった。']]:mood.includes('仕事')?[['9:00','コーヒーとPC','誰にも急かされず、自分のアイデアを開く。'],['11:00','2時間だけ集中','売れるかより、作りたいものを優先。'],['13:00','家で昼食','通勤がないだけで1日が長い。'],['15:30','今日はここまで','時間を使い切らない。'],['21:00','家族時間','仕事と生活が競合しない。']]:mood.includes('出かける')?[['9:30','今日は予定なし','天気を見てから行き先を決める。'],['11:00','車でふらっと','混んでいない道を走る。'],['13:00','行き先でランチ','帰る時間も急がない。'],['16:00','寄り道','平日だからできる余白。'],['20:00','家に戻る','「休みを消化した」感じがしない。']]:[['9:30','目覚ましを急がない','今日は仕事の日ではない。'],['11:00','何もしない','暇ではなく、選べる時間。'],['13:00','好きな昼食','家で過ごすこと自体が贅沢になる。'],['16:00','まだ予定なし','使い切らない1日。'],['21:00','明日を急がない','お金が「時間」に変わっている。']];
- $('timeline').innerHTML=`<div class="timeline">${events.map(e=>`<div class="timeRow"><div class="time">${e[0]}</div><div class="event"><b>${e[1]}</b><p>${e[2]}</p></div></div>`).join('')}</div>`
-}
-function final(){
- $('finalWorld').innerHTML=worldHTML(true);let [a,b]=surpriseText(true);
- $('finalSuggestion').innerHTML=`<div class="surprise"><div class="ey">✦ この世界から次に広がるもの</div><strong>${a}</strong><p>${b}</p></div>`;show('s8')
-}
-
-$('start').onclick=()=>{budgetOptions();renderFeatures();show('s1')};
-$('useReal').onclick=()=>{let title=$('realTitle').value.trim(),p=parseFloat($('realPrice').value);if(!title||!p){alert('候補名と価格を入力してください');return}S.real={title,price:p*1e4,url:$('realUrl').value.trim()};alert('候補に追加しました。下の条件も必要なら調整してください。')};
-$('search').onclick=()=>{renderResults();show('s2')};
-$('editSearch').onclick=()=>show('s1');
-$('cancelPurchase').onclick=()=>show('s2');
-$('confirmPurchase').onclick=overlay;
-$('toWork').onclick=()=>{renderWorks();show('s5')};
-$('applyWork').onclick=()=>{renderWorld('world2',true);renderSurprise('surprise2',true);show('s6')};
-$('toDay').onclick=()=>{S.day=null;$('dayVisual').style.backgroundImage=`url('${IMG.home1}')`;$('dayMood').textContent='今日は、急がなくていい。';renderDayChoices();$('timeline').innerHTML='';$('finish').disabled=true;show('s7')};
-$('finish').onclick=final;
-$('payIntent').onclick=()=>{localStorage.setItem('atattara-v10-pay-intent','yes');$('payFeedback').classList.add('on')};
-$('restart').onclick=()=>{S={amount:3e8,priority:'家族',features:new Set(['庭','書斎','遊び部屋']),home:null,work:null,real:null,day:null};renderAmounts();renderPriority();show('s0')};
-
-renderAmounts();renderPriority();
-</script>
-</body>
-</html>
+const $=id=>document.getElementById(id);const yen=n=>'¥'+new Intl.NumberFormat('ja-JP').format(Math.max(0,Math.round(n)));const moneyLabel=n=>n===1e7?'1,000万円':n===1e8?'1億円':n===3e8?'3億円':'10億円';
+const IMG={home1:'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=82',home2:'https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=1200&q=82',home3:'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1200&q=82',work1:'https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=900&q=80',work2:'https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=900&q=80',work3:'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80',trip1:'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=80',trip2:'https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=900&q=80',trip3:'https://images.unsplash.com/photo-1527631746610-bca00a040d60?auto=format&fit=crop&w=900&q=80',car1:'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=900&q=80',car2:'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=900&q=80',car3:'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=900&q=80',challenge1:'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=900&q=80',challenge2:'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80',challenge3:'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80',morning:'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1000&q=82',family:'https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?auto=format&fit=crop&w=1000&q=82'};
+const amounts=[1e7,1e8,3e8,1e9];const priorities=[['👨‍👩‍👦','家族時間'],['🕊️','自由'],['✈️','旅行'],['🌱','挑戦']];
+const homeTemplates=[{name:'光が入る、庭付きの家',price:88000000,size:'128㎡',layout:'4LDK',feature:'庭＋書斎',img:IMG.home1},{name:'駅近の上質な住まい',price:112000000,size:'116㎡',layout:'3LDK',feature:'駅近＋広いLDK',img:IMG.home2},{name:'せっかくなら、かなり贅沢に',price:148000000,size:'162㎡',layout:'5LDK',feature:'大浴室＋プレイルーム',img:IMG.home3}];
+const groups={works:[{id:'w1',title:'週3で働く',sub:'仕事も残しつつ、平日2日を自分に戻す',cost:18000000,img:IMG.work1},{id:'w2',title:'1年間、完全に休む',sub:'いったん立ち止まってから選び直す',cost:9000000,img:IMG.work2},{id:'w3',title:'自分の仕事を育てる',sub:'収益を急がず2年間挑戦する',cost:20000000,img:IMG.work3}],trips:[{id:'t1',title:'毎年1か月、沖縄',sub:'旅行ではなく「暮らす」',cost:2200000,img:IMG.trip1},{id:'t2',title:'毎年、海外へ2週間',sub:'家族で行き先を変えていく',cost:3000000,img:IMG.trip2},{id:'t3',title:'月1回、小さな旅',sub:'遠出より、日常に旅を増やす',cost:1800000,img:IMG.trip3}],cars:[{id:'c1',title:'家族で使うSUV',sub:'日常も旅行も1台で',cost:7000000,img:IMG.car1},{id:'c2',title:'ミニバンを上質に',sub:'子どもとの移動を快適に',cost:6500000,img:IMG.car2},{id:'c3',title:'自分が欲しかった1台',sub:'実用性より「乗りたい」を優先',cost:12000000,img:IMG.car3}],challenges:[{id:'h1',title:'自分のサービスを作る',sub:'2年だけ本気で育てる',cost:12000000,img:IMG.challenge1},{id:'h2',title:'学び直す',sub:'資格・学校・新しい分野へ',cost:5000000,img:IMG.challenge2},{id:'h3',title:'何も決めず余白を残す',sub:'今は使わず、未来の自分に渡す',cost:0,img:IMG.challenge3}]};
+let S={amount:3e8,priority:'家族時間',home:null,works:null,trips:null,cars:null,challenges:null};
+function show(id){document.querySelectorAll('.screen').forEach(x=>x.classList.remove('on'));$(id).classList.add('on');window.scrollTo({top:0,behavior:'smooth'})}
+function renderAmounts(){$('amounts').innerHTML=amounts.map(v=>`<button class="${S.amount===v?'sel':''}" data-v="${v}">${moneyLabel(v)}</button>`).join('');$('jpBig').textContent=moneyLabel(S.amount);$('jpCopy').textContent=S.amount===1e7?'暮らしを全部変えるより、今の生活に大きな余白を。':S.amount===1e8?'家か時間か。大きな夢を1つ、本気で変えられる。':S.amount===3e8?'家も、時間も、旅行も。複数の夢を同時に考えられる。':'選ぶのは物ではなく、どんな人生にするか。';document.querySelectorAll('#amounts button').forEach(b=>b.onclick=()=>{S.amount=+b.dataset.v;renderAmounts()})}
+function renderPriorities(){$('priorities').innerHTML=priorities.map(x=>`<button class="pbtn ${S.priority===x[1]?'sel':''}" data-v="${x[1]}"><span>${x[0]}</span><b>${x[1]}</b></button>`).join('');document.querySelectorAll('#priorities button').forEach(b=>b.onclick=()=>{S.priority=b.dataset.v;renderPriorities()})}
+function scaledPrice(base){const factor=S.amount===1e7?.18:S.amount===1e8?.7:S.amount===3e8?1:S.amount===1e9?1.45:1;return Math.round(base*factor/100000)*100000}
+function renderHomes(){$('homes').innerHTML=homeTemplates.map((h,i)=>{const p=scaledPrice(h.price);return `<div class="choice ${S.home&&S.home.template===i?'selected':''}"><div class="photo" style="background-image:url('${h.img}')"><span class="phototag">${i===0?'家族時間':i===1?'便利さ':'夢を盛る'}</span></div><div class="body"><div class="price">${yen(p)}</div><h3>${h.name}</h3><div class="specs"><div class="spec"><b>${h.size}</b><small>広さ</small></div><div class="spec"><b>${h.layout}</b><small>間取り</small></div><div class="spec"><b>${h.feature}</b><small>特徴</small></div></div><button class="select" data-i="${i}">この家にする</button></div></div>`}).join('');document.querySelectorAll('#homes .select').forEach(b=>b.onclick=()=>{const i=+b.dataset.i,h=homeTemplates[i];S.home={...h,price:scaledPrice(h.price),template:i};$('homeNext').disabled=false;renderHomes()})}
+function renderGroup(key){const el=$(key),items=groups[key];el.innerHTML=items.map(x=>`<button class="opt ${S[key]&&S[key].id===x.id?'sel':''}" data-id="${x.id}"><div class="thumb" style="background-image:url('${x.img}')"></div><div class="ocopy"><b>${x.title}</b><small>${x.sub}</small></div></button>`).join('');el.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{S[key]=items.find(x=>x.id===b.dataset.id);renderGroup(key);checkLife()})}
+function checkLife(){$('lifeNext').disabled=!(S.works&&S.trips&&S.cars&&S.challenges)}
+function totalSpent(){return (S.home?.price||0)+(S.works?.cost||0)+(S.trips?.cost||0)+(S.cars?.cost||0)+(S.challenges?.cost||0)}
+function remaining(){return S.amount-totalSpent()}
+function worldHTML(full=false){const home=S.home||homeTemplates[0];const rem=Math.max(0,remaining());const pct=Math.max(3,Math.min(100,rem/S.amount*100));const tiles=[['仕事',S.works?.title||'まだ決めていない',S.works?.img||IMG.work1,!!S.works],['旅行',S.trips?.title||'まだ決めていない',S.trips?.img||IMG.trip1,!!S.trips],['車',S.cars?.title||'まだ決めていない',S.cars?.img||IMG.car1,!!S.cars],['挑戦',S.challenges?.title||'まだ決めていない',S.challenges?.img||IMG.challenge1,!!S.challenges]];return `<div class="worldhero" style="background-image:url('${home.img}')"><div class="worldcopy"><small>MY WORLD / ${moneyLabel(S.amount)}</small><h2>${home.name}</h2><p>${full?'選んだものが、1つの生活としてつながりました。':'ここを起点に、他の暮らしを決めます。'}</p></div></div><div class="balance"><small>この世界を作ったあとに残るお金</small><b>${yen(rem)}</b><div class="bar"><span style="width:${pct}%"></span></div></div><div class="worldgrid">${tiles.map(t=>`<div class="tile ${t[3]?'active':'locked'}" style="background-image:url('${t[2]}')"><span class="status">${t[3]?'DECIDED':'NEXT'}</span><div class="tcopy"><small>${t[0]}</small><b>${t[1]}</b></div></div>`).join('')}</div>`}
+function renderPages(){const home=S.home;const work=S.works,trip=S.trips,car=S.cars,ch=S.challenges;const rem=Math.max(0,remaining());$('bookCover').style.backgroundImage=`url('${home.img}')`;$('coverTitle').innerHTML=`${moneyLabel(S.amount)}が当たった、<br>あなたのこれから。`;$('coverSub').textContent=`${home.name}に住み、${work.title}。${trip.title}を楽しみながら、${ch.title}。`;
+const pages=[{img:home.img,k:'CHAPTER 01',title:'帰る場所が変わった。',p:`${home.name}。ここに約${yen(home.price)}を使っても、人生はまだ続きます。朝起きた時に「この家に帰ってくるんだ」と思える場所から、当選後の生活が始まります。`},{img:IMG.morning,k:'CHAPTER 02',title:'火曜日の朝、仕事はない。',p:`${work.title}を選んだことで、平日の景色が変わります。急いで家を出る必要のない朝。家族を見送ったあと、自分の時間が残っています。`},{img:trip.img,k:'CHAPTER 03',title:trip.title,p:`旅行を「年に一度のご褒美」ではなく、暮らしの予定として先に置く。${trip.sub}という選択が、カレンダーの見え方を変えます。`},{img:car.img,k:'CHAPTER 04',title:'移動も、妥協しない。',p:`${car.title}。家族で出かける日も、ひとりで走る日も、「お金が当たったから」ではなく、生活の一部として選んだ1台です。`},{img:ch.img,k:'1 YEAR LATER',title:'1年後も、まだ選べる。',p:`この世界を1年過ごしても、残りは約${yen(rem)}。いちばん大きな変化は、物を買ったことではなく「次に何をするかを急いで決めなくていい」ことかもしれません。`,compare:true}];
+$('pages').innerHTML=pages.map((p,i)=>`<div class="page"><div class="pageimg" style="background-image:url('${p.img}')"><span class="pageno">PAGE ${i+1} / 5</span></div><div class="pagebody"><small>${p.k}</small><h3>${p.title}</h3><p>${p.p}</p>${p.compare?`<div class="compare"><div><b>この世界</b>${home.name}<br>${work.title}<br>残り 約${yen(rem)}</div><div><b>別ルート</b>家を買わず<br>仕事を1年休む<br>旅行を増やす</div></div>`:''}</div></div>`).join('')}
+renderAmounts();renderPriorities();
+$('start').onclick=()=>{renderHomes();show('s1')};
+$('useCustom').onclick=()=>{const name=$('customName').value.trim(),price=Number($('customPrice').value)*10000;if(!name||!price){alert('候補名と価格を入力してください');return}S.home={name,price,size:'実在候補',layout:'あなたの条件',feature:'持ち込み物件',img:IMG.home1,template:null,url:$('customUrl').value.trim()};$('homeNext').disabled=false;renderHomes()};
+$('homeNext').onclick=()=>{$('worldMini').innerHTML=worldHTML(false);['works','trips','cars','challenges'].forEach(renderGroup);show('s2')};
+$('lifeNext').onclick=()=>{$('worldFull').innerHTML=worldHTML(true);show('s3')};
+$('previewBook').onclick=()=>{renderPages();show('s4')};
+$('feedback').querySelectorAll('button').forEach(b=>b.onclick=()=>{$('feedback').querySelectorAll('button').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');localStorage.setItem('atattara-v11-paytest',b.dataset.v);$('thanks').classList.add('on')});
+$('again').onclick=()=>{S={amount:3e8,priority:'家族時間',home:null,works:null,trips:null,cars:null,challenges:null};$('homeNext').disabled=true;$('lifeNext').disabled=true;renderAmounts();renderPriorities();show('s0')};
+</script></body></html>
