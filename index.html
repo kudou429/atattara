@@ -1,70 +1,208 @@
 <!doctype html>
 <html lang="ja">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#fff8ef">
 <title>当たったら</title>
 <style>
-:root{--ink:#153047;--muted:#71808c;--line:#e3eaee;--blue:#4da7bd;--blue2:#80c7d7;--shadow:0 10px 28px rgba(20,55,72,.10)}
-*{box-sizing:border-box}html,body{margin:0;background:linear-gradient(#eaf7fb,#f7faf9 42%,#f6f3eb);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif}
-button{font:inherit;color:inherit}.app{max-width:520px;margin:auto;min-height:100vh;padding:env(safe-area-inset-top) 14px calc(84px + env(safe-area-inset-bottom))}
-.top{padding:18px 6px 12px}.date{font-size:13px;color:#54788a}.hello{font-size:25px;font-weight:900;margin-top:5px}.sub{font-size:14px;color:var(--muted);margin-top:4px}
-.hero,.stats,.history,.result{background:#fff;border-radius:26px;padding:19px;box-shadow:var(--shadow)}.label{font-size:12px;color:var(--muted);font-weight:700}.money{font-size:37px;font-weight:950;letter-spacing:-.05em;margin:4px 0 16px}
-.lifegrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.mini{border:1px solid var(--line);border-radius:17px;padding:11px;background:#fbfdfe;font-size:13px}.mini b{display:block;margin-top:3px}
-.st{font-size:18px;font-weight:900;margin:22px 4px 11px}.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.action{border:1px solid var(--line);background:#fff;border-radius:21px;padding:16px 6px;min-height:92px;box-shadow:0 5px 14px rgba(26,62,77,.06)}.ico{font-size:28px;display:block;margin-bottom:7px}
-.advance{width:100%;border:0;border-radius:22px;padding:17px;margin-top:14px;background:linear-gradient(90deg,var(--blue2),var(--blue));color:#fff;font-size:17px;font-weight:900}
-.stat{display:grid;grid-template-columns:28px 1fr 36px;align-items:center;gap:8px;margin:11px 0}.bar{height:9px;background:#edf1f4;border-radius:99px;overflow:hidden}.fill{height:100%;border-radius:99px}
-.dreams{display:flex;gap:10px;flex-wrap:wrap}.dream{width:calc(50% - 5px);background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden}.dream-art{height:76px;display:grid;place-items:center;font-size:36px;background:linear-gradient(135deg,#e7f5f8,#fff3dc)}.dream-body{padding:10px}.dream-title{font-weight:900;font-size:13px}.dream-date,.hdate{font-size:11px;color:var(--muted)}
-.empty{background:#fff;border:1px dashed #cbd8df;color:var(--muted);border-radius:18px;padding:18px;width:100%;font-size:13px}
-.nav{position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:min(520px,100%);display:grid;grid-template-columns:repeat(3,1fr);background:rgba(255,255,255,.95);border-top:1px solid var(--line);padding:9px 10px calc(9px + env(safe-area-inset-bottom));z-index:10}.nav button{border:0;background:transparent;padding:7px;font-size:11px;color:#7d8992}.nav .active{color:#174f70;font-weight:900}.nicon{display:block;font-size:21px}
-.view{display:none}.view.active{display:block}.hrow{display:grid;grid-template-columns:74px 14px 1fr;gap:8px;min-height:68px}.dot{width:10px;height:10px;border-radius:50%;background:#5ca7bc;margin-top:4px;position:relative}.dot:after{content:"";position:absolute;width:2px;background:#d8e3e8;top:12px;left:4px;height:56px}.hrow:last-child .dot:after{display:none}.htext{font-size:14px;font-weight:800}
-.overlay{position:fixed;inset:0;background:rgba(17,37,50,.36);z-index:30;display:none;align-items:flex-end}.overlay.show{display:flex}.sheet{width:min(520px,100%);max-height:83vh;overflow:auto;background:#fbfcfc;border-radius:28px 28px 0 0;padding:18px 16px calc(25px + env(safe-area-inset-bottom));margin:auto}.handle{width:42px;height:5px;background:#d7dfe3;border-radius:99px;margin:0 auto 16px}.sheet h2{margin:0 0 4px}.sheet p{color:var(--muted);font-size:13px}.option{width:100%;border:1px solid var(--line);background:#fff;border-radius:17px;padding:14px;margin:8px 0;text-align:left;display:flex;justify-content:space-between;gap:10px}.option span{font-size:12px;color:var(--muted)}.close,.reset{width:100%;border:0;background:#eef3f5;border-radius:17px;padding:14px;margin-top:8px;font-weight:800}
-.flash{position:fixed;left:50%;top:calc(16px + env(safe-area-inset-top));transform:translateX(-50%) translateY(-20px);width:min(470px,calc(100% - 28px));background:#153047;color:#fff;padding:14px 16px;border-radius:18px;z-index:50;opacity:0;transition:.25s;font-size:13px}.flash.show{opacity:1;transform:translateX(-50%)}
-</style></head>
+:root{
+ --ink:#2a2a2f;--muted:#7d7a78;--paper:#fffdf9;--line:#eee5da;
+ --warm:#ffefe1;--sky:#e9f6fb;--sage:#edf4e8;--lav:#f0ecfb;--rose:#fff0f2;
+ --shadow:0 18px 48px rgba(74,52,35,.11);--r:28px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:
+radial-gradient(circle at 10% 0%,#fff1dc 0,transparent 35%),
+radial-gradient(circle at 100% 20%,#e8f7fb 0,transparent 35%),
+linear-gradient(180deg,#fffaf3,#f9f7f3);color:var(--ink);
+font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif}
+body{min-height:100vh}button,input{font:inherit}
+button{cursor:pointer;color:inherit}
+.shell{width:min(100%,540px);margin:auto;min-height:100vh;padding:calc(14px + env(safe-area-inset-top)) 16px calc(32px + env(safe-area-inset-bottom))}
+.brand{font-size:13px;font-weight:900;letter-spacing:.12em;margin:2px 3px 18px;color:#7e6859}
+.screen{display:none}.screen.active{display:block;animation:in .38s ease}
+@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.hero{min-height:74vh;display:flex;flex-direction:column;justify-content:center;padding:20px 4px}
+.spark{font-size:28px;margin-bottom:12px}
+.kicker{font-size:12px;letter-spacing:.12em;font-weight:900;color:#a27b5a;margin-bottom:9px}
+h1,h2,p{margin-top:0}h1{font-size:42px;line-height:1.1;letter-spacing:-.045em;margin-bottom:14px}
+h2{font-size:29px;line-height:1.28;letter-spacing:-.025em;margin-bottom:10px}
+.lead{font-size:15px;line-height:1.9;color:var(--muted)}
+.win{font-size:51px;font-weight:950;letter-spacing:-.055em;margin:8px 0 18px}
+.note{font-size:13px;line-height:1.75;color:var(--muted)}
+.primary,.ghost{width:100%;border:0;border-radius:20px;padding:17px 18px;font-weight:900;font-size:16px}
+.primary{background:#2f3135;color:#fff;box-shadow:0 10px 26px rgba(47,49,53,.19)}
+.ghost{background:#fff;border:1px solid var(--line);margin-top:10px}
+.topline{display:flex;align-items:center;justify-content:space-between;margin:2px 2px 20px}
+.progress{display:flex;gap:6px}.dot{width:7px;height:7px;border-radius:99px;background:#dfd9d2}.dot.on{width:20px;background:#514943}
+.qwrap{padding-top:8px}.question{margin-bottom:18px}
+.scenehint{font-size:13px;color:#9a7a60;font-weight:800;margin-bottom:8px}
+.options{display:grid;gap:11px}
+.option{width:100%;border:1px solid var(--line);background:rgba(255,255,255,.9);border-radius:23px;padding:16px 17px;text-align:left;display:grid;grid-template-columns:42px 1fr 18px;align-items:center;gap:10px;box-shadow:0 7px 20px rgba(74,52,35,.045)}
+.option:active{transform:scale(.985)}
+.oi{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;font-size:23px;background:#f8f3ec}
+.ot{font-weight:900;font-size:15px}.os{font-size:12px;color:var(--muted);margin-top:3px;line-height:1.45}.arrow{color:#b9ada3;font-size:20px}
+.reveal{min-height:76vh;display:flex;flex-direction:column;justify-content:center}
+.added{font-size:12px;letter-spacing:.1em;font-weight:900;color:#a17657;margin-bottom:12px}
+.scene{border:1px solid rgba(255,255,255,.8);border-radius:31px;padding:24px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.scene:before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.7),transparent);pointer-events:none}
+.scene>*{position:relative}
+.scene.warm{background:linear-gradient(145deg,#fff7ec,#ffe8d3)}
+.scene.sky{background:linear-gradient(145deg,#f5fcff,#dff3fa)}
+.scene.sage{background:linear-gradient(145deg,#f8fbf5,#e4f0dd)}
+.scene.lav{background:linear-gradient(145deg,#fbf9ff,#e9e2f8)}
+.scene.rose{background:linear-gradient(145deg,#fff9fa,#ffe3e8)}
+.sceneicon{font-size:48px;margin-bottom:23px}.scenetitle{font-size:25px;font-weight:950;line-height:1.25;margin-bottom:12px}
+.scenebody{font-size:16px;line-height:1.95;color:#565055;white-space:pre-line}
+.reveal .primary{margin-top:18px}
+.boardHead{padding:14px 3px 8px}.boardHead h1{font-size:35px}.boardIntro{font-size:15px;line-height:1.85;color:var(--muted)}
+.insight{background:#2f3135;color:#fff;border-radius:28px;padding:23px;margin:15px 0 21px;box-shadow:var(--shadow)}
+.insight .small{font-size:11px;letter-spacing:.12em;opacity:.65;font-weight:900}.insight .big{font-size:21px;line-height:1.65;font-weight:850;margin-top:9px}
+.cards{display:grid;gap:13px}.memory{background:#fff;border:1px solid var(--line);border-radius:24px;padding:18px;display:grid;grid-template-columns:48px 1fr;gap:13px;box-shadow:0 8px 24px rgba(74,52,35,.055)}
+.mi{width:48px;height:48px;border-radius:16px;display:grid;place-items:center;font-size:25px;background:#f7f2eb}.mt{font-size:16px;font-weight:900}.mb{font-size:13px;line-height:1.68;color:var(--muted);margin-top:5px}
+.custom{background:rgba(255,255,255,.7);border:1px dashed #d9c9ba;border-radius:25px;padding:18px;margin-top:18px}
+.custom h3{margin:0 0 5px;font-size:17px}.custom p{font-size:12px;color:var(--muted);line-height:1.55}
+.customrow{display:flex;gap:8px}.custom input{flex:1;min-width:0;border:1px solid var(--line);border-radius:16px;padding:13px;background:#fff;outline:none}.custom button{border:0;border-radius:16px;padding:0 15px;background:#2f3135;color:#fff;font-weight:900}
+.footerActions{margin-top:18px}
+.fadeText{font-size:13px;color:#907c6d;line-height:1.75;text-align:center;margin:18px 10px 4px}
+</style>
+</head>
 <body>
-<div class="flash" id="flash"></div>
-<main class="app">
-<section class="view active" id="lifeView">
-<div class="top"><div class="date" id="dateText"></div><div class="hello">おはようございます。</div><div class="sub">今日は、どうしますか？</div></div>
-<div class="hero"><div class="label">総資産</div><div class="money" id="assetText"></div><div class="lifegrid">
-<div class="mini">💼 仕事<b id="workText"></b></div><div class="mini">🏠 住まい<b id="homeText"></b></div>
-<div class="mini">👨‍👩‍👦 家族<b id="familyText"></b></div><div class="mini">🌱 挑戦<b id="challengeText"></b></div></div></div>
-<div class="st">今日はどうする？</div><div class="actions">
-<button class="action" data-act="work"><span class="ico">💼</span><b>仕事</b></button>
-<button class="action" data-act="home"><span class="ico">🏠</span><b>住まい</b></button>
-<button class="action" data-act="travel"><span class="ico">✈️</span><b>旅行</b></button>
-<button class="action" data-act="family"><span class="ico">🎁</span><b>家族</b></button>
-<button class="action" data-act="money"><span class="ico">📈</span><b>お金</b></button>
-<button class="action" data-act="challenge"><span class="ico">🌱</span><b>挑戦</b></button></div>
-<button class="advance" id="advanceBtn">1か月進める →</button><div class="st">LIFE STATUS</div><div class="stats" id="statsBox"></div>
+<main class="shell">
+<div class="brand">当たったら</div>
+
+<section class="screen active" id="start">
+ <div class="hero">
+  <div class="spark">✨</div>
+  <div class="kicker">CONGRATULATIONS</div>
+  <h1>3億円、<br>当たりました。</h1>
+  <div class="win">¥300,000,000</div>
+  <p class="lead">でも今日は、お金の計算はしません。<br>そのお金があったら、<b>あなたの毎日がどう変わるか</b>だけ想像してみます。</p>
+  <button class="primary" id="startBtn">もしもの人生を見にいく</button>
+  <div class="fadeText">5つの場面を選ぶだけ。正解も、勝ち負けもありません。</div>
+ </div>
 </section>
-<section class="view" id="dreamView"><div class="top"><div class="date">DREAM</div><div class="hello">手に入れた人生</div><div class="sub">買った物ではなく、増えていった暮らしと経験。</div></div><div class="dreams" id="dreamList"></div></section>
-<section class="view" id="historyView"><div class="top"><div class="date">HISTORY</div><div class="hello">当選後の人生年表</div><div class="sub">あなたが選んだ「もしもの人生」が残ります。</div></div><div class="history" id="historyList"></div><div id="yearResult"></div></section>
+
+<section class="screen" id="question">
+ <div class="topline"><div class="kicker" style="margin:0">YOUR NEW LIFE</div><div class="progress" id="progress"></div></div>
+ <div class="qwrap">
+   <div class="question">
+    <div class="scenehint" id="sceneHint"></div>
+    <h2 id="qTitle"></h2>
+    <p class="lead" id="qSub"></p>
+   </div>
+   <div class="options" id="options"></div>
+ </div>
+</section>
+
+<section class="screen" id="reveal">
+ <div class="reveal">
+  <div class="added">あなたの世界に追加されました</div>
+  <div class="scene warm" id="sceneCard">
+   <div class="sceneicon" id="sceneIcon"></div>
+   <div class="scenetitle" id="sceneTitle"></div>
+   <div class="scenebody" id="sceneBody"></div>
+  </div>
+  <button class="primary" id="nextBtn">次の場面へ</button>
+ </div>
+</section>
+
+<section class="screen" id="board">
+ <div class="boardHead">
+  <div class="kicker">YOUR “ATATTARA”</div>
+  <h1>これが、あなたの<br>「当たったら」。</h1>
+  <p class="boardIntro">3億円の使い道ではなく、3億円があることで生まれた「時間」と「景色」を集めました。</p>
+ </div>
+ <div class="insight"><div class="small">YOU MAY REALLY WANT...</div><div class="big" id="insightText"></div></div>
+ <div class="cards" id="cards"></div>
+ <div class="custom">
+  <h3>まだある？</h3>
+  <p>「当たったら、これもしたい」を1つだけ追加できます。</p>
+  <div class="customrow"><input id="customInput" maxlength="50" placeholder="例：家族で1か月北海道に住む"><button id="addCustom">追加</button></div>
+ </div>
+ <div class="footerActions"><button class="ghost" id="restartBtn">別の「当たったら」を作る</button></div>
+ <div class="fadeText">お金が欲しい理由の先には、たぶん「どんな毎日を送りたいか」があります。</div>
+</section>
 </main>
-<nav class="nav"><button class="active" data-view="life"><span class="nicon">🏠</span>LIFE</button><button data-view="dream"><span class="nicon">♡</span>DREAM</button><button data-view="history"><span class="nicon">▤</span>HISTORY</button></nav>
-<div class="overlay" id="overlay"><div class="sheet"><div class="handle"></div><div id="sheetContent"></div><button class="close" id="closeSheet">閉じる</button></div></div>
 <script>
-const START={year:2026,month:9,asset:300000000,work:'介護職・週5日',home:'今の家',family:'ふつう',challenge:'まだない',stats:{family:50,freedom:35,challenge:25,safety:65},monthly:400000,invest:0,dreams:[],history:[{m:0,text:'3億円に当選'}],elapsed:0};
-let s=load()||JSON.parse(JSON.stringify(START));const fmt=n=>new Intl.NumberFormat('ja-JP').format(Math.round(n))+'円',clamp=n=>Math.max(0,Math.min(100,Math.round(n)));
-function save(){localStorage.setItem('atattara-v01',JSON.stringify(s))}function load(){try{return JSON.parse(localStorage.getItem('atattara-v01'))}catch(e){return null}}
-function ym(){let t=s.month-1+s.elapsed;return[s.year+Math.floor(t/12),t%12+1]}function stamp(){let[y,m]=ym();return y+'.'+String(m).padStart(2,'0')}
-function hist(t){s.history.unshift({m:s.elapsed,text:t})}function dream(i,t){s.dreams.unshift({icon:i,title:t,date:stamp()})}function adj(o){for(const[k,v]of Object.entries(o))s.stats[k]=clamp(s.stats[k]+v)}function spend(n){s.asset=Math.max(0,s.asset-n)}
-function flash(t){let f=document.getElementById('flash');f.textContent=t;f.classList.add('show');setTimeout(()=>f.classList.remove('show'),1600)}
-function render(){let[y,m]=ym();dateText.textContent=`${y}年${m}月5日`;assetText.textContent='¥'+new Intl.NumberFormat('ja-JP').format(Math.round(s.asset));workText.textContent=s.work;homeText.textContent=s.home;familyText.textContent=s.family;challengeText.textContent=s.challenge;
-let a=[['👨‍👩‍👦','家族との時間','family','#55ad78'],['🕊️','自由','freedom','#8d79d8'],['🌱','挑戦','challenge','#ef9a45'],['🛡️','安心','safety','#4b99d2']];statsBox.innerHTML=a.map(x=>`<div class="stat"><div>${x[0]}</div><div><div style="font-size:12px;font-weight:800;margin-bottom:5px">${x[1]}</div><div class="bar"><div class="fill" style="width:${s.stats[x[2]]}%;background:${x[3]}"></div></div></div><b>${s.stats[x[2]]}</b></div>`).join('');
-dreamList.innerHTML=s.dreams.length?s.dreams.map(d=>`<div class="dream"><div class="dream-art">${d.icon}</div><div class="dream-body"><div class="dream-title">${d.title}</div><div class="dream-date">${d.date}</div></div></div>`).join(''):'<div class="empty">まだ何もありません。LIFEで行動すると、ここに「手に入れた人生」が増えます。</div>';
-historyList.innerHTML=s.history.map(h=>{let t=s.month-1+h.m,y=s.year+Math.floor(t/12),m=t%12+1;return`<div class="hrow"><div class="hdate">${y}.${String(m).padStart(2,'0')}</div><div class="dot"></div><div class="htext">${h.text}</div></div>`}).join('');
-yearResult.innerHTML=s.elapsed>=12?`<div class="result" style="margin-top:16px"><div class="date">当選から1年後</div><h2>あなたの「当たったら」1年目</h2><p style="color:var(--muted);line-height:1.7;font-size:14px">資産だけでなく、自由・家族・挑戦・安心が、あなたの選択で変わりました。</p><div class="money" style="font-size:30px">¥${new Intl.NumberFormat('ja-JP').format(Math.round(s.asset))}</div><button class="reset" onclick="resetGame()">別の人生を試す</button></div>`:'';save()}
-const menu={
-work:['仕事について','お金だけでなく、時間も変化します。',[['今まで通り働く','安心 +4',()=>{s.work='介護職・週5日';adj({safety:4});hist('今まで通り仕事を続けることにした')}],['週3日に減らす','自由 +12',()=>{s.work='介護職・週3日';adj({freedom:12,family:7,safety:-3});dream('☕','平日に生まれた余白');hist('仕事を週3日に減らした')}],['退職する','自由 +30',()=>{s.work='退職';adj({freedom:30,family:12,safety:-10});dream('🌅','仕事に追われない毎日');hist('仕事を退職した')}],['自分の仕事を始める','1,000万円',()=>{spend(1e7);s.work='自分の仕事';s.challenge='自分の事業';adj({challenge:25,freedom:6,safety:-7});dream('🚀','自分で始めた仕事');hist('自分の仕事を始めた')}]]],
-home:['住まいを選ぶ','どんな家より、どんな暮らしをしたいか。',[['今の地域で広い家','7,000万円',()=>{spend(7e7);s.home='今の地域の広い家';adj({family:8,safety:5});dream('🏡','家族で暮らす広い家');hist('7,000万円で新しい家を購入した')}],['庭のある家','8,000万円',()=>{spend(8e7);s.home='庭のある家';adj({family:10,freedom:4});dream('🌳','庭のある暮らし');hist('庭のある家へ引っ越した')}],['都心マンション','1億円',()=>{spend(1e8);s.home='都心マンション';adj({freedom:5,safety:5});dream('🌆','便利な都心暮らし');hist('都心マンションを購入した')}],['今の家のまま','0円',()=>hist('住まいは今のままにした')]]],
-travel:['旅行する','お金を思い出と時間に変えます。',[['家族で国内旅行','30万円',()=>{spend(3e5);adj({family:6,freedom:3});dream('♨️','家族で国内旅行');hist('家族で国内旅行へ出かけた')}],['沖縄で2週間','120万円',()=>{spend(12e5);adj({family:10,freedom:7});dream('🌺','沖縄で過ごした2週間');hist('沖縄に2週間滞在した')}],['海外へ長期旅行','500万円',()=>{spend(5e6);adj({family:9,freedom:15,challenge:5});dream('🌍','家族で長い海外旅行');hist('海外へ長期旅行した')}]]],
-family:['家族のために','自分以外への使い方も人生を変えます。',[['家族との平日を増やす','家族 +10',()=>{s.monthly+=5e4;adj({family:10,freedom:4});dream('👨‍👩‍👦','家族と過ごす平日の午後');hist('家族との時間を増やした')}],['両親へプレゼント','500万円',()=>{spend(5e6);adj({family:8});dream('🎁','両親へのプレゼント');hist('家族へ贈り物をした')}],['思い出予算を確保','1,000万円',()=>{spend(1e7);adj({family:10,safety:5});dream('💛','家族のための1,000万円');hist('家族の思い出予算を確保した')}]]],
-money:['お金をどう置く？','増やすより、何のために残すか。',[['5,000万円を将来資金に','安心 +12',()=>{s.invest+=5e7;adj({safety:12});dream('🛡️','将来のための5,000万円');hist('5,000万円を将来資金に分けた')}],['1億円を将来資金に','安心 +20',()=>{s.invest+=1e8;adj({safety:20});dream('📈','将来のための1億円');hist('1億円を将来資金に分けた')}],['今は決めない','自由 +2',()=>{adj({freedom:2});hist('使い道は急いで決めないことにした')}]]],
-challenge:['新しいことを始める','当選金を挑戦の余白に変えます。',[['小さな事業を始める','300万円',()=>{spend(3e6);s.challenge='小さな事業';adj({challenge:18,freedom:4});dream('💻','自分の小さな事業');hist('小さな事業を始めた')}],['学び直す','100万円',()=>{spend(1e6);s.challenge='学び直し中';adj({challenge:12,safety:2});dream('🎓','やりたかった学び直し');hist('学び直しを始めた')}],['趣味を本気でやる','200万円',()=>{spend(2e6);s.challenge='趣味を本気で';adj({challenge:8,freedom:10});dream('🎨','本気で楽しむ趣味');hist('趣味を本気で始めた')}]]]
+const qs=[
+ {hint:'当選した次の朝',title:'明日、仕事に行かなくていい。',sub:'時計を見なくていい朝。最初にしたいことは？',choices:[
+  {icon:'🥞',label:'家族でゆっくり朝ごはん',sub:'急がない朝を一緒に過ごす',title:'急がなくていい朝',body:'朝7時半。目覚ましではなく、家の音で目が覚めます。\n「早くしないと」がない朝。家族でゆっくり朝ごはんを食べながら、今日何をするか話しています。',theme:'family',tone:'warm'},
+  {icon:'☕',label:'一人でカフェへ行く',sub:'平日の朝を自分の時間にする',title:'平日の朝、ひとりでカフェ',body:'いつもなら仕事へ向かっている時間。\n今日はコーヒーを飲みながら、何をしようか考えています。予定がないことが、少し贅沢に感じます。',theme:'freedom',tone:'sky'},
+  {icon:'😴',label:'もう一度寝る',sub:'時間を気にせず休む',title:'目覚ましのない朝',body:'一度目を覚ましたけれど、今日は起きなくていい。\n布団に戻ってもう一度眠ります。「休んでも大丈夫」と思えるだけで、朝の感じが変わりました。',theme:'rest',tone:'lav'},
+  {icon:'👜',label:'たぶん、いつも通り出勤する',sub:'すぐには生活を変えない',title:'変えないことも選べる朝',body:'3億円あっても、今日はいつも通り出勤します。\nただ、「嫌ならいつでも変えられる」と思えるだけで、昨日までとは少し違う朝です。',theme:'choice',tone:'sage'}
+ ]},
+ {hint:'ある平日の14時',title:'予定は何もありません。',sub:'そんな午後、どこにいたい？',choices:[
+  {icon:'👨‍👩‍👦',label:'家族と出かけている',sub:'平日に一緒に遊ぶ',title:'家族と過ごす平日の午後',body:'平日の午後2時。混んでいない場所を家族で歩いています。\n明日の仕事を気にして切り上げる必要もありません。今日という一日を、最後まで使えます。',theme:'family',tone:'warm'},
+  {icon:'🛋️',label:'家のリビングにいる',sub:'何もしない時間も楽しむ',title:'何もしない午後',body:'広いソファに座って、特に何もしていません。\nやることがないのではなく、やらなくてもいい。窓から入る光を見ながら、そんな午後も悪くないと思っています。',theme:'rest',tone:'sage'},
+  {icon:'🌺',label:'旅先にいる',sub:'今日はどこにいてもいい',title:'平日なのに、旅先',body:'今日は平日。でも、あなたは旅先にいます。\n帰る日を急いで決めなくてもいい旅。観光を詰め込まず、その土地で普通に一日を過ごしています。',theme:'freedom',tone:'sky'},
+  {icon:'💻',label:'自分の作業部屋にいる',sub:'やりたかったことを形にする',title:'自分のための作業部屋',body:'午後2時。誰かに言われた仕事ではなく、自分がやりたかったことに集中しています。\n「これで稼げるか」より先に、「面白いからやる」があります。',theme:'challenge',tone:'lav'}
+ ]},
+ {hint:'毎日帰る場所',title:'帰るたび、ちょっと嬉しい家。',sub:'その家に一つだけ欲しいものは？',choices:[
+  {icon:'🏡',label:'家族で過ごせる広いリビング',sub:'みんなが自然に集まる場所',title:'家族が集まる広いリビング',body:'夕方になると、家族がなんとなく同じ場所に集まってきます。\n広さそのものより、「ここで一緒に過ごしたい」と思える場所が家の真ん中にあります。',theme:'family',tone:'warm'},
+  {icon:'🌳',label:'小さくても庭がある',sub:'外に出たくなる家',title:'外に続いている家',body:'窓を開けると、すぐ外に出られます。\n子どもが遊んだり、何もせず椅子に座ったり。家にいながら、少しだけ季節を感じられる暮らしです。',theme:'home',tone:'sage'},
+  {icon:'📚',label:'静かな自分の部屋',sub:'一人になれる場所も欲しい',title:'誰にも急かされない自分の部屋',body:'扉を閉めれば、一人になれる小さな場所があります。\n考え事をしても、何かを作っても、ただぼーっとしてもいい。自分の時間を置いておける部屋です。',theme:'freedom',tone:'lav'},
+  {icon:'🚉',label:'今の街で、もっと便利な家',sub:'生活圏はあまり変えない',title:'好きな街のまま、少しだけ広く',body:'大きく環境を変える必要はありません。\n慣れた街、いつもの場所、その安心感は残したまま。家の中に少しだけ余白が増えました。',theme:'safety',tone:'sky'}
+ ]},
+ {hint:'丸ごと自由な1か月',title:'仕事も予定も入っていません。',sub:'最初に何をしたい？',choices:[
+  {icon:'✈️',label:'家族で長めの旅行',sub:'日数を気にしない旅',title:'「明日帰る」がない旅行',body:'旅行4日目。まだ帰りません。\n「せっかくだから」と予定を詰めず、朝はゆっくり。家族でその日の気分を見ながら、今日することを決めています。',theme:'family',tone:'sky'},
+  {icon:'🎮',label:'好きなことを飽きるまでやる',sub:'途中で時間を気にしない',title:'好きなことを、途中でやめなくていい',body:'「もう寝ないと」「明日仕事だから」がありません。\n好きなことを、飽きるところまでやってみます。時間に追われない趣味は、少し違って見えます。',theme:'freedom',tone:'lav'},
+  {icon:'🚀',label:'ずっと考えていたことを始める',sub:'失敗しても困らない挑戦',title:'失敗してもいい挑戦',body:'ずっと頭の片隅にあったことを、ついに始めています。\n成功する保証はありません。でも失敗しても生活は壊れない。その余裕が、最初の一歩を軽くしました。',theme:'challenge',tone:'rose'},
+  {icon:'🌿',label:'何もしない',sub:'まずは疲れを抜きたい',title:'予定のない1か月',body:'大きなことは何もしません。\nよく寝て、散歩して、家で過ごす。何かを始める前に、まず「何もしなくていい時間」を味わっています。',theme:'rest',tone:'sage'}
+ ]},
+ {hint:'お金の心配がなくなった世界',title:'それでも、働く？',sub:'生活費のためではなく、自分で働き方を選べるとしたら。',choices:[
+  {icon:'🌅',label:'いったん全部やめる',sub:'何をしたいか考えてから決める',title:'肩書きのない時間',body:'しばらく仕事の予定はありません。\n「次は何をする？」と急いで答えを出さず、肩書きのない自分で過ごしています。仕事を選び直す時間も、手に入りました。',theme:'freedom',tone:'warm'},
+  {icon:'🗓️',label:'週2〜3日だけ働く',sub:'仕事も、家族も、自分の時間も',title:'仕事が生活の全部ではない週',body:'働く日は働く。でも、平日に何日も自分の時間があります。\n仕事を完全に手放さず、それでも家族や自分の時間を中心に予定を組める一週間です。',theme:'balance',tone:'sage'},
+  {icon:'💡',label:'自分の仕事を作る',sub:'やってみたいことを仕事にする',title:'「自分で決める」が仕事になる',body:'何を作るか、誰とやるか、いつ働くか。\n全部を自分で考えています。収入だけを基準にしなくていいから、面白いと思えることを仕事の中心にできます。',theme:'challenge',tone:'lav'},
+  {icon:'🤝',label:'今の仕事を、好きな範囲で続ける',sub:'辞める自由があるから続けられる',title:'「辞められない」ではなく「続けたい」',body:'今の仕事を完全には離れません。\nただ、生活のために我慢する必要はなくなりました。自分が大切だと思う部分だけを残して働いています。',theme:'choice',tone:'sky'}
+ ]}
+];
+
+let step=0, chosen=[], current=null;
+const $=id=>document.getElementById(id);
+function show(id){document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));$(id).classList.add('active');scrollTo(0,0)}
+function drawProgress(){ $('progress').innerHTML=qs.map((_,i)=>`<span class="dot ${i===step?'on':''}"></span>`).join('') }
+function renderQ(){
+ const q=qs[step]; $('sceneHint').textContent=q.hint;$('qTitle').textContent=q.title;$('qSub').textContent=q.sub;drawProgress();
+ $('options').innerHTML=q.choices.map((c,i)=>`<button class="option" data-i="${i}"><span class="oi">${c.icon}</span><span><span class="ot">${c.label}</span><span class="os">${c.sub}</span></span><span class="arrow">›</span></button>`).join('');
+ document.querySelectorAll('.option').forEach(b=>b.onclick=()=>pick(+b.dataset.i));
+}
+function pick(i){
+ current=qs[step].choices[i];chosen.push(current);
+ $('sceneCard').className='scene '+current.tone;$('sceneIcon').textContent=current.icon;$('sceneTitle').textContent=current.title;$('sceneBody').textContent=current.body;
+ $('nextBtn').textContent=step===qs.length-1?'あなたの「当たったら」を見る':'次の場面へ';show('reveal')
+}
+function next(){
+ step++;
+ if(step<qs.length){renderQ();show('question')}else{renderBoard();show('board')}
+}
+function insight(){
+ const count={};chosen.forEach(c=>count[c.theme]=(count[c.theme]||0)+1);
+ const top=Object.entries(count).sort((a,b)=>b[1]-a[1])[0]?.[0];
+ const text={
+ family:'あなたが一番欲しいのは、大きな買い物より「家族と急がず過ごせる時間」なのかもしれません。',
+ freedom:'あなたが一番欲しいのは、お金そのものより「今日はどうするかを自分で決められる自由」なのかもしれません。',
+ rest:'あなたが一番欲しいのは、何かを手に入れることより「休んでも焦らなくていい余裕」なのかもしれません。',
+ challenge:'あなたが一番欲しいのは、豪華な暮らしより「失敗を怖がらず試せる余白」なのかもしれません。',
+ home:'あなたが一番欲しいのは、高い家より「家にいる時間そのものが好きになる暮らし」なのかもしれません。',
+ safety:'あなたが一番欲しいのは、全部を変えることより「好きなものを残しながら余裕を増やすこと」なのかもしれません。',
+ balance:'あなたが一番欲しいのは、仕事をゼロにすることより「仕事・家族・自分を自分で配分できる生活」なのかもしれません。',
+ choice:'あなたが一番欲しいのは、何かを辞めることより「続けるか辞めるかを自分で選べる安心」なのかもしれません。'
+ };
+ return text[top]||'あなたが欲しかったのは、3億円そのものではなく「自分で毎日を選べる余白」なのかもしれません。'
+}
+function renderBoard(){
+ $('insightText').textContent=insight();
+ $('cards').innerHTML=chosen.map(c=>`<div class="memory"><div class="mi">${c.icon}</div><div><div class="mt">${c.title}</div><div class="mb">${c.body.replace(/\n/g,' ')}</div></div></div>`).join('');
+}
+$('startBtn').onclick=()=>{renderQ();show('question')};
+$('nextBtn').onclick=next;
+$('restartBtn').onclick=()=>{step=0;chosen=[];current=null;$('customInput').value='';show('start')};
+$('addCustom').onclick=()=>{
+ const v=$('customInput').value.trim();if(!v)return;
+ const c={icon:'✨',title:v,body:'これは、あなた自身が思いついた「当たったら」。数字ではなく、忘れたくない未来の一つです。',theme:'custom',tone:'warm'};
+ chosen.push(c);$('customInput').value='';renderBoard();
 };
-function openSheet(k){let m=menu[k];sheetContent.innerHTML=`<h2>${m[0]}</h2><p>${m[1]}</p>`+m[2].map((o,i)=>`<button class="option" data-op="${i}"><strong>${o[0]}</strong><span>${o[1]} ›</span></button>`).join('');overlay.classList.add('show');document.querySelectorAll('[data-op]').forEach(b=>b.onclick=()=>{m[2][+b.dataset.op][2]();render();overlay.classList.remove('show');flash('あなたの人生が少し変わりました。')})}
-document.querySelectorAll('[data-act]').forEach(b=>b.onclick=()=>openSheet(b.dataset.act));closeSheet.onclick=()=>overlay.classList.remove('show');overlay.onclick=e=>{if(e.target===overlay)overlay.classList.remove('show')};
-advanceBtn.onclick=()=>{if(s.elapsed>=12){showView('history');return}spend(s.monthly);s.elapsed++;if(s.invest)s.asset+=s.invest*(.01/12);hist(`1か月進んだ（生活費 −${fmt(s.monthly)}）`);if(s.elapsed===6){adj({family:3});hist('当選から半年が経った')}if(s.elapsed===12){dream('📖','自分で選んだ1年間');hist('当選から1年が経った')}render();flash(s.elapsed===12?'1年が経ちました。':'1か月、時間が進みました。')};
-function showView(v){document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));document.getElementById(v+'View').classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.view===v));scrollTo(0,0)}
-document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>showView(b.dataset.view));function resetGame(){localStorage.removeItem('atattara-v01');s=JSON.parse(JSON.stringify(START));render();showView('life');flash('新しい3億円の人生を始めます。')}window.resetGame=resetGame;render();
-</script></body></html>
+</script>
+</body></html>
