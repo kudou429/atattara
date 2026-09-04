@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>当たったら</title>
+<style>
+:root{--ink:#153047;--muted:#71808c;--line:#e3eaee;--blue:#4da7bd;--blue2:#80c7d7;--shadow:0 10px 28px rgba(20,55,72,.10)}
+*{box-sizing:border-box}html,body{margin:0;background:linear-gradient(#eaf7fb,#f7faf9 42%,#f6f3eb);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif}
+button{font:inherit;color:inherit}.app{max-width:520px;margin:auto;min-height:100vh;padding:env(safe-area-inset-top) 14px calc(84px + env(safe-area-inset-bottom))}
+.top{padding:18px 6px 12px}.date{font-size:13px;color:#54788a}.hello{font-size:25px;font-weight:900;margin-top:5px}.sub{font-size:14px;color:var(--muted);margin-top:4px}
+.hero,.stats,.history,.result{background:#fff;border-radius:26px;padding:19px;box-shadow:var(--shadow)}.label{font-size:12px;color:var(--muted);font-weight:700}.money{font-size:37px;font-weight:950;letter-spacing:-.05em;margin:4px 0 16px}
+.lifegrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.mini{border:1px solid var(--line);border-radius:17px;padding:11px;background:#fbfdfe;font-size:13px}.mini b{display:block;margin-top:3px}
+.st{font-size:18px;font-weight:900;margin:22px 4px 11px}.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.action{border:1px solid var(--line);background:#fff;border-radius:21px;padding:16px 6px;min-height:92px;box-shadow:0 5px 14px rgba(26,62,77,.06)}.ico{font-size:28px;display:block;margin-bottom:7px}
+.advance{width:100%;border:0;border-radius:22px;padding:17px;margin-top:14px;background:linear-gradient(90deg,var(--blue2),var(--blue));color:#fff;font-size:17px;font-weight:900}
+.stat{display:grid;grid-template-columns:28px 1fr 36px;align-items:center;gap:8px;margin:11px 0}.bar{height:9px;background:#edf1f4;border-radius:99px;overflow:hidden}.fill{height:100%;border-radius:99px}
+.dreams{display:flex;gap:10px;flex-wrap:wrap}.dream{width:calc(50% - 5px);background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden}.dream-art{height:76px;display:grid;place-items:center;font-size:36px;background:linear-gradient(135deg,#e7f5f8,#fff3dc)}.dream-body{padding:10px}.dream-title{font-weight:900;font-size:13px}.dream-date,.hdate{font-size:11px;color:var(--muted)}
+.empty{background:#fff;border:1px dashed #cbd8df;color:var(--muted);border-radius:18px;padding:18px;width:100%;font-size:13px}
+.nav{position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:min(520px,100%);display:grid;grid-template-columns:repeat(3,1fr);background:rgba(255,255,255,.95);border-top:1px solid var(--line);padding:9px 10px calc(9px + env(safe-area-inset-bottom));z-index:10}.nav button{border:0;background:transparent;padding:7px;font-size:11px;color:#7d8992}.nav .active{color:#174f70;font-weight:900}.nicon{display:block;font-size:21px}
+.view{display:none}.view.active{display:block}.hrow{display:grid;grid-template-columns:74px 14px 1fr;gap:8px;min-height:68px}.dot{width:10px;height:10px;border-radius:50%;background:#5ca7bc;margin-top:4px;position:relative}.dot:after{content:"";position:absolute;width:2px;background:#d8e3e8;top:12px;left:4px;height:56px}.hrow:last-child .dot:after{display:none}.htext{font-size:14px;font-weight:800}
+.overlay{position:fixed;inset:0;background:rgba(17,37,50,.36);z-index:30;display:none;align-items:flex-end}.overlay.show{display:flex}.sheet{width:min(520px,100%);max-height:83vh;overflow:auto;background:#fbfcfc;border-radius:28px 28px 0 0;padding:18px 16px calc(25px + env(safe-area-inset-bottom));margin:auto}.handle{width:42px;height:5px;background:#d7dfe3;border-radius:99px;margin:0 auto 16px}.sheet h2{margin:0 0 4px}.sheet p{color:var(--muted);font-size:13px}.option{width:100%;border:1px solid var(--line);background:#fff;border-radius:17px;padding:14px;margin:8px 0;text-align:left;display:flex;justify-content:space-between;gap:10px}.option span{font-size:12px;color:var(--muted)}.close,.reset{width:100%;border:0;background:#eef3f5;border-radius:17px;padding:14px;margin-top:8px;font-weight:800}
+.flash{position:fixed;left:50%;top:calc(16px + env(safe-area-inset-top));transform:translateX(-50%) translateY(-20px);width:min(470px,calc(100% - 28px));background:#153047;color:#fff;padding:14px 16px;border-radius:18px;z-index:50;opacity:0;transition:.25s;font-size:13px}.flash.show{opacity:1;transform:translateX(-50%)}
+</style></head>
+<body>
+<div class="flash" id="flash"></div>
+<main class="app">
+<section class="view active" id="lifeView">
+<div class="top"><div class="date" id="dateText"></div><div class="hello">おはようございます。</div><div class="sub">今日は、どうしますか？</div></div>
+<div class="hero"><div class="label">総資産</div><div class="money" id="assetText"></div><div class="lifegrid">
+<div class="mini">💼 仕事<b id="workText"></b></div><div class="mini">🏠 住まい<b id="homeText"></b></div>
+<div class="mini">👨‍👩‍👦 家族<b id="familyText"></b></div><div class="mini">🌱 挑戦<b id="challengeText"></b></div></div></div>
+<div class="st">今日はどうする？</div><div class="actions">
+<button class="action" data-act="work"><span class="ico">💼</span><b>仕事</b></button>
+<button class="action" data-act="home"><span class="ico">🏠</span><b>住まい</b></button>
+<button class="action" data-act="travel"><span class="ico">✈️</span><b>旅行</b></button>
+<button class="action" data-act="family"><span class="ico">🎁</span><b>家族</b></button>
+<button class="action" data-act="money"><span class="ico">📈</span><b>お金</b></button>
+<button class="action" data-act="challenge"><span class="ico">🌱</span><b>挑戦</b></button></div>
+<button class="advance" id="advanceBtn">1か月進める →</button><div class="st">LIFE STATUS</div><div class="stats" id="statsBox"></div>
+</section>
+<section class="view" id="dreamView"><div class="top"><div class="date">DREAM</div><div class="hello">手に入れた人生</div><div class="sub">買った物ではなく、増えていった暮らしと経験。</div></div><div class="dreams" id="dreamList"></div></section>
+<section class="view" id="historyView"><div class="top"><div class="date">HISTORY</div><div class="hello">当選後の人生年表</div><div class="sub">あなたが選んだ「もしもの人生」が残ります。</div></div><div class="history" id="historyList"></div><div id="yearResult"></div></section>
+</main>
+<nav class="nav"><button class="active" data-view="life"><span class="nicon">🏠</span>LIFE</button><button data-view="dream"><span class="nicon">♡</span>DREAM</button><button data-view="history"><span class="nicon">▤</span>HISTORY</button></nav>
+<div class="overlay" id="overlay"><div class="sheet"><div class="handle"></div><div id="sheetContent"></div><button class="close" id="closeSheet">閉じる</button></div></div>
+<script>
+const START={year:2026,month:9,asset:300000000,work:'介護職・週5日',home:'今の家',family:'ふつう',challenge:'まだない',stats:{family:50,freedom:35,challenge:25,safety:65},monthly:400000,invest:0,dreams:[],history:[{m:0,text:'3億円に当選'}],elapsed:0};
+let s=load()||JSON.parse(JSON.stringify(START));const fmt=n=>new Intl.NumberFormat('ja-JP').format(Math.round(n))+'円',clamp=n=>Math.max(0,Math.min(100,Math.round(n)));
+function save(){localStorage.setItem('atattara-v01',JSON.stringify(s))}function load(){try{return JSON.parse(localStorage.getItem('atattara-v01'))}catch(e){return null}}
+function ym(){let t=s.month-1+s.elapsed;return[s.year+Math.floor(t/12),t%12+1]}function stamp(){let[y,m]=ym();return y+'.'+String(m).padStart(2,'0')}
+function hist(t){s.history.unshift({m:s.elapsed,text:t})}function dream(i,t){s.dreams.unshift({icon:i,title:t,date:stamp()})}function adj(o){for(const[k,v]of Object.entries(o))s.stats[k]=clamp(s.stats[k]+v)}function spend(n){s.asset=Math.max(0,s.asset-n)}
+function flash(t){let f=document.getElementById('flash');f.textContent=t;f.classList.add('show');setTimeout(()=>f.classList.remove('show'),1600)}
+function render(){let[y,m]=ym();dateText.textContent=`${y}年${m}月5日`;assetText.textContent='¥'+new Intl.NumberFormat('ja-JP').format(Math.round(s.asset));workText.textContent=s.work;homeText.textContent=s.home;familyText.textContent=s.family;challengeText.textContent=s.challenge;
+let a=[['👨‍👩‍👦','家族との時間','family','#55ad78'],['🕊️','自由','freedom','#8d79d8'],['🌱','挑戦','challenge','#ef9a45'],['🛡️','安心','safety','#4b99d2']];statsBox.innerHTML=a.map(x=>`<div class="stat"><div>${x[0]}</div><div><div style="font-size:12px;font-weight:800;margin-bottom:5px">${x[1]}</div><div class="bar"><div class="fill" style="width:${s.stats[x[2]]}%;background:${x[3]}"></div></div></div><b>${s.stats[x[2]]}</b></div>`).join('');
+dreamList.innerHTML=s.dreams.length?s.dreams.map(d=>`<div class="dream"><div class="dream-art">${d.icon}</div><div class="dream-body"><div class="dream-title">${d.title}</div><div class="dream-date">${d.date}</div></div></div>`).join(''):'<div class="empty">まだ何もありません。LIFEで行動すると、ここに「手に入れた人生」が増えます。</div>';
+historyList.innerHTML=s.history.map(h=>{let t=s.month-1+h.m,y=s.year+Math.floor(t/12),m=t%12+1;return`<div class="hrow"><div class="hdate">${y}.${String(m).padStart(2,'0')}</div><div class="dot"></div><div class="htext">${h.text}</div></div>`}).join('');
+yearResult.innerHTML=s.elapsed>=12?`<div class="result" style="margin-top:16px"><div class="date">当選から1年後</div><h2>あなたの「当たったら」1年目</h2><p style="color:var(--muted);line-height:1.7;font-size:14px">資産だけでなく、自由・家族・挑戦・安心が、あなたの選択で変わりました。</p><div class="money" style="font-size:30px">¥${new Intl.NumberFormat('ja-JP').format(Math.round(s.asset))}</div><button class="reset" onclick="resetGame()">別の人生を試す</button></div>`:'';save()}
+const menu={
+work:['仕事について','お金だけでなく、時間も変化します。',[['今まで通り働く','安心 +4',()=>{s.work='介護職・週5日';adj({safety:4});hist('今まで通り仕事を続けることにした')}],['週3日に減らす','自由 +12',()=>{s.work='介護職・週3日';adj({freedom:12,family:7,safety:-3});dream('☕','平日に生まれた余白');hist('仕事を週3日に減らした')}],['退職する','自由 +30',()=>{s.work='退職';adj({freedom:30,family:12,safety:-10});dream('🌅','仕事に追われない毎日');hist('仕事を退職した')}],['自分の仕事を始める','1,000万円',()=>{spend(1e7);s.work='自分の仕事';s.challenge='自分の事業';adj({challenge:25,freedom:6,safety:-7});dream('🚀','自分で始めた仕事');hist('自分の仕事を始めた')}]]],
+home:['住まいを選ぶ','どんな家より、どんな暮らしをしたいか。',[['今の地域で広い家','7,000万円',()=>{spend(7e7);s.home='今の地域の広い家';adj({family:8,safety:5});dream('🏡','家族で暮らす広い家');hist('7,000万円で新しい家を購入した')}],['庭のある家','8,000万円',()=>{spend(8e7);s.home='庭のある家';adj({family:10,freedom:4});dream('🌳','庭のある暮らし');hist('庭のある家へ引っ越した')}],['都心マンション','1億円',()=>{spend(1e8);s.home='都心マンション';adj({freedom:5,safety:5});dream('🌆','便利な都心暮らし');hist('都心マンションを購入した')}],['今の家のまま','0円',()=>hist('住まいは今のままにした')]]],
+travel:['旅行する','お金を思い出と時間に変えます。',[['家族で国内旅行','30万円',()=>{spend(3e5);adj({family:6,freedom:3});dream('♨️','家族で国内旅行');hist('家族で国内旅行へ出かけた')}],['沖縄で2週間','120万円',()=>{spend(12e5);adj({family:10,freedom:7});dream('🌺','沖縄で過ごした2週間');hist('沖縄に2週間滞在した')}],['海外へ長期旅行','500万円',()=>{spend(5e6);adj({family:9,freedom:15,challenge:5});dream('🌍','家族で長い海外旅行');hist('海外へ長期旅行した')}]]],
+family:['家族のために','自分以外への使い方も人生を変えます。',[['家族との平日を増やす','家族 +10',()=>{s.monthly+=5e4;adj({family:10,freedom:4});dream('👨‍👩‍👦','家族と過ごす平日の午後');hist('家族との時間を増やした')}],['両親へプレゼント','500万円',()=>{spend(5e6);adj({family:8});dream('🎁','両親へのプレゼント');hist('家族へ贈り物をした')}],['思い出予算を確保','1,000万円',()=>{spend(1e7);adj({family:10,safety:5});dream('💛','家族のための1,000万円');hist('家族の思い出予算を確保した')}]]],
+money:['お金をどう置く？','増やすより、何のために残すか。',[['5,000万円を将来資金に','安心 +12',()=>{s.invest+=5e7;adj({safety:12});dream('🛡️','将来のための5,000万円');hist('5,000万円を将来資金に分けた')}],['1億円を将来資金に','安心 +20',()=>{s.invest+=1e8;adj({safety:20});dream('📈','将来のための1億円');hist('1億円を将来資金に分けた')}],['今は決めない','自由 +2',()=>{adj({freedom:2});hist('使い道は急いで決めないことにした')}]]],
+challenge:['新しいことを始める','当選金を挑戦の余白に変えます。',[['小さな事業を始める','300万円',()=>{spend(3e6);s.challenge='小さな事業';adj({challenge:18,freedom:4});dream('💻','自分の小さな事業');hist('小さな事業を始めた')}],['学び直す','100万円',()=>{spend(1e6);s.challenge='学び直し中';adj({challenge:12,safety:2});dream('🎓','やりたかった学び直し');hist('学び直しを始めた')}],['趣味を本気でやる','200万円',()=>{spend(2e6);s.challenge='趣味を本気で';adj({challenge:8,freedom:10});dream('🎨','本気で楽しむ趣味');hist('趣味を本気で始めた')}]]]
+};
+function openSheet(k){let m=menu[k];sheetContent.innerHTML=`<h2>${m[0]}</h2><p>${m[1]}</p>`+m[2].map((o,i)=>`<button class="option" data-op="${i}"><strong>${o[0]}</strong><span>${o[1]} ›</span></button>`).join('');overlay.classList.add('show');document.querySelectorAll('[data-op]').forEach(b=>b.onclick=()=>{m[2][+b.dataset.op][2]();render();overlay.classList.remove('show');flash('あなたの人生が少し変わりました。')})}
+document.querySelectorAll('[data-act]').forEach(b=>b.onclick=()=>openSheet(b.dataset.act));closeSheet.onclick=()=>overlay.classList.remove('show');overlay.onclick=e=>{if(e.target===overlay)overlay.classList.remove('show')};
+advanceBtn.onclick=()=>{if(s.elapsed>=12){showView('history');return}spend(s.monthly);s.elapsed++;if(s.invest)s.asset+=s.invest*(.01/12);hist(`1か月進んだ（生活費 −${fmt(s.monthly)}）`);if(s.elapsed===6){adj({family:3});hist('当選から半年が経った')}if(s.elapsed===12){dream('📖','自分で選んだ1年間');hist('当選から1年が経った')}render();flash(s.elapsed===12?'1年が経ちました。':'1か月、時間が進みました。')};
+function showView(v){document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));document.getElementById(v+'View').classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.view===v));scrollTo(0,0)}
+document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>showView(b.dataset.view));function resetGame(){localStorage.removeItem('atattara-v01');s=JSON.parse(JSON.stringify(START));render();showView('life');flash('新しい3億円の人生を始めます。')}window.resetGame=resetGame;render();
+</script></body></html>
